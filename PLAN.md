@@ -27,7 +27,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M0 — Repo scaffolding
 
-- [ ] Add `.gitignore` (node_modules, `.DS_Store`, editor dirs, test tmp output).
+- [x] Add `.gitignore` (node_modules, `.DS_Store`, editor dirs, test tmp output).
       *Verify:* `git status` is clean after creating a throwaway `node_modules/`.
 - [ ] Add `package.json`: name `phraser`, version `0.1.0`, `"type": "module"`,
       `engines.node >= 20`, no dependencies, `"test": "node --test tests/"`.
