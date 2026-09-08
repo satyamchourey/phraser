@@ -5,6 +5,32 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+Live testing of the v0.1 skill surfaced three UX problems, addressed here.
+
+### Changed
+
+- **Renamed the command** `phraser` → `gist`. Invocation is now
+  `/phraser:gist` (was `/phraser:phraser`); `commands/phraser.md` is now
+  `commands/gist.md`. The skill itself is unchanged — it's still
+  `phraser-expand` (`phraser:phraser-expand`).
+- **Clarifying-question answers now route back into the sharpening flow
+  unambiguously**, rather than looking like an unrelated new message.
+  `phraser-expand` prefers the `AskUserQuestion` tool when the open points
+  are choice-shaped (the answer returns inside the same turn); it falls
+  back to a delimited `PHRASER — CLARIFYING QUESTIONS` block, with an
+  explicit "reply with your answers" line, when a question is genuinely
+  open-ended or the tool is unavailable (it doesn't exist in headless
+  sessions).
+- **The sharpened prompt is now visually set apart and requires approval.**
+  Output shape B is a delimited `SHARPENED PROMPT` block, followed by a
+  plain-prose "Approved? Reply yes, or tell me what to change." The skill
+  stops there — it does not begin implementing, even when the work looks
+  small and obvious. (The approval ask is deliberately prose rather than a
+  tool call, so the model's turn actually ends there instead of leaving it
+  holding an "approved" it could act on immediately.)
+
 ## [0.1.0] - 2026-09-08
 
 Initial release. Manual invocation only — see `phraser-project-spec.md`

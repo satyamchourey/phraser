@@ -370,10 +370,14 @@ complaint).
       anchoring on the actual block delimiters (═══/───) and narrowing the
       leak check to the specific narration phrasing rather than any mention
       of the tool name. Re-run: 5/5 live; npm test unaffected (60/60).)
-- [ ] Add an `Unreleased` section to `CHANGELOG.md` covering the rename and
+- [x] Add an `Unreleased` section to `CHANGELOG.md` covering the rename and
       both behavior changes.
       *Verify:* version stays `0.1.0` and consistent across the three files;
       the section describes all three changes.
+      (Confirmed: 0.1.0 unchanged in package.json and plugin.json;
+      Unreleased sits above the 0.1.0 entry, covering the rename,
+      answer-routing, and sharpened-block/approval changes under one
+      Changed heading.)
 
 ---
 
