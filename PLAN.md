@@ -109,11 +109,13 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M4 — The skill (`skills/phraser-expand/SKILL.md`)
 
-- [ ] Write the SKILL.md frontmatter: name, and a `description` written as a
+- [x] Write the SKILL.md frontmatter: name, and a `description` written as a
       trigger condition (when Claude should load it), not a summary.
       Do **not** pin a model — spec §5 requires inheriting the session's model.
       *Verify:* `claude plugin validate .` passes; the skill appears in the
       available-skills list with `--plugin-dir .`.
+      (Confirmed as phraser:phraser-expand in the model's own skill listing;
+      component inventory shows Skills (1).)
 - [ ] Write the core decision procedure from spec §4: restate in one line →
       ask only if scope or done-ness is genuinely unclear → never ask about
       subjective defaults, state the assumption instead → hard cap of 3
