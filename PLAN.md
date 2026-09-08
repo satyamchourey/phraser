@@ -171,18 +171,28 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M6 — Headless skill-level test harness
 
-- [ ] Write `tests/skill.test.js` driving `claude --print` with `--plugin-dir .`
+- [x] Write `tests/skill.test.js` driving `claude --print` with `--plugin-dir .`
       against a small subset (~5) of fixture prompts, asserting the output
       contains either a clarifying question or a structured expansion — never
       raw passthrough.
       *Verify:* passes locally against a live `claude` binary.
-- [ ] Make these tests skip cleanly (not fail) when the `claude` binary is
+      (Named tests/skill.headless.js instead — see M6 task 3's split-scripts
+      note for why. All 5/5 pass live: vague-01, vague-06, fine-02, fine-05,
+      fine-15.)
+- [x] Make these tests skip cleanly (not fail) when the `claude` binary is
       absent or unauthenticated, so `npm test` stays green for contributors
       without a session.
       *Verify:* `PATH=/usr/bin npm test` skips them and still exits 0.
-- [ ] Split the scripts: `npm test` = fast unit/gate tests only;
+      (hasClaudeCli() checks `claude --version` then `claude auth status`;
+      each test case gets `{ skip }`. Verified with PATH restricted to
+      node's own bin dir + /usr/bin:/bin — 5/5 skipped, 0 failed, exit 0.)
+- [x] Split the scripts: `npm test` = fast unit/gate tests only;
       `npm run test:skill` = the headless harness.
       *Verify:* both scripts run and do what their names say.
+      (`test` globs `tests/**/*.test.js`, which does not match
+      `skill.headless.js` — confirmed: 60/60 fast tests, ~50ms, no live
+      calls. `test:skill` runs skill.headless.js explicitly — the identical
+      command already verified live 5/5 pass in the task-1 check above.)
 
 ## M7 — CI
 

@@ -7,7 +7,8 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test \"tests/**/*.test.js\""
+    "test": "node --test \"tests/**/*.test.js\"",
+    "test:skill": "node --test tests/skill.headless.js"
   },
   "author": {
     "name": "Satyam Chourey"
