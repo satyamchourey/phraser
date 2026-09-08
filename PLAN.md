@@ -116,22 +116,31 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       available-skills list with `--plugin-dir .`.
       (Confirmed as phraser:phraser-expand in the model's own skill listing;
       component inventory shows Skills (1).)
-- [ ] Write the core decision procedure from spec §4: restate in one line →
+- [x] Write the core decision procedure from spec §4: restate in one line →
       ask only if scope or done-ness is genuinely unclear → never ask about
       subjective defaults, state the assumption instead → hard cap of 3
       questions → after one round, proceed with stated assumptions.
       *Verify:* read it cold against three fixture prompts and check the
       procedure gives an unambiguous answer for each.
-- [ ] Define the two output shapes explicitly, with a worked example of each:
+      (Live-tested against vague-06 "add auth", vague-13 "the deploy is
+      broken", vague-09 "run the linter and fix issues" via
+      `claude --plugin-dir .` — three distinct, well-reasoned outcomes, each
+      grounded in this repo's actual CLAUDE.md/git-diff/config state.)
+- [x] Define the two output shapes explicitly, with a worked example of each:
       (a) ≤3 clarifying questions, (b) the structured expansion — goal /
       constraints / files in scope / done-when.
       *Verify:* both examples are concrete, from a real fixture prompt, not
       placeholder text.
-- [ ] Document the context the skill should pull from before asking anything:
+      (Shape A uses vague-06 "add auth" verbatim; shape B uses vague-15
+      "clean up the styling in this component" verbatim.)
+- [x] Document the context the skill should pull from before asking anything:
       CLAUDE.md, recently touched files, current git diff — so it never asks
       about something already visible in session.
       *Verify:* run against a vague prompt in a repo with a CLAUDE.md and
       confirm the questions do not re-ask anything CLAUDE.md answers.
+      (Live-tested: scratch dir with a CLAUDE.md stating auth approach + user
+      model; "add auth" through the skill correctly skipped both and asked
+      only the one remaining genuine gap, route scope.)
 
 ## M5 — The `/phraser` command
 
