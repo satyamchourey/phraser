@@ -61,8 +61,26 @@ checklist.
 
 ### How to ask: route the answer back into this flow
 
-The answer must land back in *this* sharpening flow, not arrive as an
-unrelated new request. Two ways to ask, in order of preference:
+**This section is only about *how* to ask once step 3 has already
+established that a question is genuinely needed. It is not a reason to
+ask.** The default is still shape B. In particular:
+
+- If the user named a file, a value, or a target, that settles scope.
+  Anything about *neighbouring* files or wider blast radius is an
+  assumption to state in shape B — not a question. "Bump the version in
+  `package.json` to 0.2.0" is finished as written; that other files
+  carry the same string is a line in **Assumptions stated**, not a
+  question about which files to touch.
+- Consequences you can see and the user hasn't ruled on (a test that will
+  need re-baselining, a lockfile that drifts) go in **Constraints** or
+  **Assumptions stated**, flagged for correction. Only ask when getting
+  it wrong would waste real work *and* you cannot pick a defensible
+  default.
+
+Never narrate the mechanism — no "AskUserQuestion isn't available, so
+here it is in prose". Just ask.
+
+Two ways to ask, in order of preference:
 
 1. **Use the `AskUserQuestion` tool** when the open points are
    choice-shaped — that is, when you can offer genuinely distinct, plausible

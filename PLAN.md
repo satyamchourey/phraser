@@ -340,10 +340,22 @@ complaint).
       the approval line; `git status` unchanged afterwards, so nothing was
       edited. Also added an explicit non-goal — the skill never carries out
       the sharpened prompt, even when the work is small and obvious.)
-- [ ] Update `commands/gist.md`'s body to match the new two-shape contract
+- [x] Update `commands/gist.md`'s body to match the new two-shape contract
       (stop at the block; never implement).
       *Verify:* `/phraser:gist` on a fine fixture ends at the block with the
       approval ask; no implementation begins.
+      (Caught a regression from task 4 while verifying: fine-02 and fine-15,
+      both previously clean expansions, had started *asking* instead — task
+      4's "how to ask" section made asking read as the default path, against
+      spec §4's "state the assumption, don't ask". fine-02 was even asking
+      "which files?" when the prompt named `package.json` explicitly. Fixed
+      by scoping that section to *how* to ask once step 3 has already
+      decided one is needed, adding that a named file/value settles scope
+      and that visible consequences belong in Constraints or Assumptions,
+      and forbidding mechanism narration ("AskUserQuestion isn't available,
+      so..."). Both fixtures now expand correctly, with the multi-file
+      version drift and the test-rebaselining blast radius demoted to
+      flagged assumptions/constraints. No run touched a file.)
 - [ ] Extend `tests/skill.headless.js` with assertions for the new contract:
       expansions contain the `SHARPENED PROMPT` delimiter and an approval
       line; question outputs remain recognizable.
