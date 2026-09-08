@@ -356,10 +356,20 @@ complaint).
       so..."). Both fixtures now expand correctly, with the multi-file
       version drift and the test-rebaselining blast radius demoted to
       flagged assumptions/constraints. No run touched a file.)
-- [ ] Extend `tests/skill.headless.js` with assertions for the new contract:
+- [x] Extend `tests/skill.headless.js` with assertions for the new contract:
       expansions contain the `SHARPENED PROMPT` delimiter and an approval
       line; question outputs remain recognizable.
       *Verify:* `npm run test:skill` passes 5/5 live.
+      (First run: 1/5 failed — a test bug, not a skill bug. The patterns
+      matched the bare phrases "SHARPENED PROMPT" / "AskUserQuestion"
+      anywhere in the output, and running inside phraser's own repo means
+      the skill's own context-gathering quotes these files' prose back
+      (e.g. summarizing this very test file's docstring). vague-01 asked a
+      real, correct question but got flagged because its context summary
+      happened to mention "SHARPENED PROMPT block" in passing. Fixed by
+      anchoring on the actual block delimiters (═══/───) and narrowing the
+      leak check to the specific narration phrasing rather than any mention
+      of the tool name. Re-run: 5/5 live; npm test unaffected (60/60).)
 - [ ] Add an `Unreleased` section to `CHANGELOG.md` covering the rename and
       both behavior changes.
       *Verify:* version stays `0.1.0` and consistent across the three files;

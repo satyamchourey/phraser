@@ -74,11 +74,32 @@ function runPhraser(prompt) {
   }
 }
 
+// These patterns anchor on the block *delimiters*, not the bare phrases.
+// Running this suite inside phraser's own repo means the skill gathers
+// context by reading these very files, and will happily quote "SHARPENED
+// PROMPT" or "AskUserQuestion" back while describing what it found. Matching
+// the phrase alone therefore mistakes prose *about* the contract for the
+// contract itself — which is exactly what happened the first time this ran.
+
+// Shape B: the delimited SHARPENED PROMPT block, its sections, and the
+// approval line that must follow it.
+const SHARPENED_HEADER = /═+\s*SHARPENED PROMPT/;
+const SECTION_PATTERN = /\bGoal:|\bConstraints:|\bFiles in scope:|\bDone when:/i;
+const APPROVAL_PATTERN = /approved\?/i;
+
+// Shape A: the fallback question block. (Headless sessions have no
+// AskUserQuestion tool, so the fallback is always the path exercised here.)
+const QUESTION_BLOCK_PATTERN = /─+\s*PHRASER — CLARIFYING QUESTIONS/;
 const QUESTION_PATTERN = /\?/;
-const STRUCTURE_PATTERN = /\bGoal:|\bConstraints:|\bFiles in scope:|\bDone when:/i;
+
+// The skill must never narrate which asking mechanism it used. Targets that
+// narration specifically rather than any mention of the tool, since a
+// context summary may legitimately name it when reading this repo.
+const MECHANISM_LEAK_PATTERN =
+  /AskUserQuestion\s+(is|isn't|is not|was|wasn't|was not)\s+(un)?available/i;
 
 for (const fixture of sample) {
-  test(`skill: ${fixture.id} produces a question or a structured expansion, not passthrough`, { skip }, () => {
+  test(`skill: ${fixture.id} produces a question block or a sharpened prompt, not passthrough`, { skip }, () => {
     const output = runPhraser(fixture.prompt);
 
     assert.notEqual(
@@ -87,11 +108,34 @@ for (const fixture of sample) {
       `expected the skill to transform the prompt, not echo it verbatim:\n${output}`,
     );
 
-    const asksQuestion = QUESTION_PATTERN.test(output);
-    const isStructured = STRUCTURE_PATTERN.test(output);
+    const isSharpened = SHARPENED_HEADER.test(output);
+    const isQuestionBlock = QUESTION_BLOCK_PATTERN.test(output);
+
     assert.ok(
-      asksQuestion || isStructured,
-      `expected either a clarifying question or a structured expansion, got:\n${output}`,
+      isSharpened || isQuestionBlock,
+      `expected either a SHARPENED PROMPT block or a PHRASER — CLARIFYING QUESTIONS block, got:\n${output}`,
+    );
+
+    // Whichever shape it chose, it must be complete.
+    if (isSharpened) {
+      assert.ok(
+        SECTION_PATTERN.test(output),
+        `sharpened block is missing its sections (Goal/Constraints/Files in scope/Done when):\n${output}`,
+      );
+      assert.ok(
+        APPROVAL_PATTERN.test(output),
+        `sharpened block must be followed by an approval ask ("Approved? ..."):\n${output}`,
+      );
+    } else {
+      assert.ok(
+        QUESTION_PATTERN.test(output),
+        `question block contains no actual question:\n${output}`,
+      );
+    }
+
+    assert.ok(
+      !MECHANISM_LEAK_PATTERN.test(output),
+      `output should never narrate its asking mechanism, but mentions AskUserQuestion:\n${output}`,
     );
   });
 }
