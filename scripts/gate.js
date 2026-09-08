@@ -24,7 +24,25 @@ const MAX_ANALYZED_LENGTH = 5000;
 
 const DEFAULT_CONFIG = Object.freeze({
   maxClarifyingQuestions: 3,
-  vagueVerbs: ['fix', 'improve', 'handle', 'make better', 'clean up'],
+  // Beyond the spec's illustrative 5, this also covers the comparative
+  // "make X <adjective>" family and a couple of other common generic asks
+  // ("speed up", "support") — added during M3 fixture tuning (see PLAN.md).
+  vagueVerbs: [
+    'fix',
+    'improve',
+    'handle',
+    'make better',
+    'clean up',
+    'speed up',
+    'support',
+    'make bigger',
+    'make faster',
+    'make smaller',
+    'make nicer',
+    'make cleaner',
+    'make simpler',
+    'make easier',
+  ],
   requireAcceptanceCriteria: false,
   minWords: DEFAULT_MIN_WORDS,
   threshold: DEFAULT_THRESHOLD,
@@ -34,14 +52,15 @@ const DEFAULT_CONFIG = Object.freeze({
     noScope: 1,
     noAcceptance: 1,
     tooShort: 1,
+    problemReport: 2,
   }),
 });
 
-// A file path, a backticked code span, a dotted filename, or an identifier
-// that looks like code (camelCase, PascalCase, snake_case) — any of these
-// counts as the prompt naming something concrete to act on.
+// A file path, a backticked code span, a quoted literal, a dotted filename,
+// or an identifier that looks like code (camelCase, PascalCase, snake_case)
+// — any of these counts as the prompt naming something concrete to act on.
 const SCOPE_PATTERN =
-  /`[^`]+`|[\w.-]+\/[\w./-]+|\b[\w-]+\.\w{1,5}\b|\b[a-z]+[A-Z]\w*\b|\b[A-Z][a-z]+[A-Z]\w*\b|\b\w+_\w+\b/;
+  /`[^`]+`|[\w.-]+\/[\w./-]+|\b[\w-]+\.\w{1,5}\b|\b[a-z]+[A-Z]\w*\b|\b[A-Z][a-z]+[A-Z]\w*\b|\b\w+_\w+\b|'[^']{2,}'|"[^"]{2,}"/;
 
 // Language that defines what "done" looks like: a condition, an expected
 // result, a test, an explicit acceptance/requirement word.
@@ -51,6 +70,11 @@ const ACCEPTANCE_PATTERN =
 // "this"/"it"/"that" used as the object of the sentence rather than as part
 // of a longer, already-scoped description.
 const PRONOUN_PATTERN = /\b(this|it|that)\b/i;
+
+// A symptom statement ("the deploy is broken", "there's a bug in checkout")
+// rather than an instruction: reports a state with no ask attached.
+const PROBLEM_REPORT_PATTERN =
+  /\b(is|are|was|were)\s+(broken|down|failing|not\s+working)\b|\bthere'?s\s+a\s+(bug|problem|issue|error)\b/i;
 
 /** Longest run of pronoun-object prompts we still treat as "bare" (spec §1's
  * own examples — "fix this", "make it better" — top out at 3 words). */
@@ -140,6 +164,7 @@ export function gate(prompt, opts = {}) {
     const hasAcceptance = checkHasAcceptance(analyzed);
     const isBarePronoun = checkBarePronoun(analyzed, wordCount, hasScope);
     const isTooShort = wordCount < config.minWords;
+    const isProblemReport = PROBLEM_REPORT_PATTERN.test(analyzed);
 
     const reasons = [];
     let score = 0;
@@ -163,6 +188,10 @@ export function gate(prompt, opts = {}) {
     if (isTooShort) {
       reasons.push('very-short');
       score += config.weights.tooShort;
+    }
+    if (isProblemReport) {
+      reasons.push('problem-report-no-ask');
+      score += config.weights.problemReport;
     }
 
     if (config.requireAcceptanceCriteria && !hasAcceptance) {

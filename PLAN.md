@@ -84,10 +84,12 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       a required step before this is committed.**
       *Verify:* file parses; counts are roughly balanced between the two labels.
       (44 fixtures, 22/22 split. Author-reviewed and approved 2026-09-08.)
-- [ ] Write `tests/gate.test.js`: one `node:test` case per fixture, asserting
+- [x] Write `tests/gate.test.js`: one `node:test` case per fixture, asserting
       `gate(prompt).verdict === expected`, with the failure message printing
       the prompt, expected, actual, and `reasons`.
       *Verify:* `npm test` runs all fixtures; every one passes.
+      (First run: 6 failures, all vague-labeled prompts scoring "fine" — see
+      commit for the gate.js tuning that fixed them without touching labels.)
 - [ ] Add targeted unit tests (separate from fixtures) for degenerate input and
       for `opts` overriding defaults.
       *Verify:* `npm test` passes; deliberately breaking one signal in `gate.js`
