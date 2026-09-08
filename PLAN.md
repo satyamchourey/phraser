@@ -44,10 +44,13 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       version `0.1.0`, description, author, and only the keys v0.1 actually
       ships (`skills`, `commands`; **no** `hooks` key).
       *Verify:* `claude plugin validate .` passes.
-- [ ] Add a placeholder `commands/phraser.md` (frontmatter + one-line body) so
+- [x] Add a placeholder `commands/phraser.md` (frontmatter + one-line body) so
       the plugin loads with a real command registered.
-      *Verify:* `claude --plugin-dir . --print "/phraser hello"` returns without
-      an unknown-command error.
+      *Verify:* `claude --plugin-dir . --print "/phraser:phraser hello"` returns
+      without an unknown-command error. (Note: headless `--print` invocation of
+      a plugin command requires the `<plugin>:<command>` qualified form — bare
+      `/phraser` is not resolved outside an interactive session. Confirmed
+      against Claude Code CLI 2.1.263.)
 
 ## M2 — Heuristic gate (`scripts/gate.js`)
 
@@ -121,7 +124,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 - [ ] Replace the M1 placeholder `commands/phraser.md` with the real command:
       takes the rough idea as arguments, invokes the `phraser-expand` skill,
       returns questions or the sharpened prompt.
-      *Verify:* `claude --plugin-dir . --print "/phraser make auth better"`
+      *Verify:* `claude --plugin-dir . --print "/phraser:phraser make auth better"`
       returns clarifying questions.
 - [ ] Handle the no-argument case (`/phraser` alone) — operate on the previous
       user message, or ask for the idea. Pick one and document it.
@@ -129,7 +132,8 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 - [ ] Ensure a well-formed prompt passed to `/phraser` produces the structured
       expansion and **no** questions — manual invocation must not manufacture
       ambiguity to justify itself.
-      *Verify:* `/phraser` on three `expected: "fine"` fixtures asks zero questions.
+      *Verify:* `/phraser:phraser` on three `expected: "fine"` fixtures asks zero
+      questions.
 
 ## M6 — Headless skill-level test harness
 
