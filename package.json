@@ -1,0 +1,16 @@
+{
+  "name": "phraser",
+  "version": "0.1.0",
+  "description": "Catches vague prompts and sharpens them before Claude acts.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.js\""
+  },
+  "author": {
+    "name": "Satyam Chourey"
+  },
+  "license": "MIT"
+}
