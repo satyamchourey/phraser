@@ -149,9 +149,14 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       returns questions or the sharpened prompt.
       *Verify:* `claude --plugin-dir . --print "/phraser:phraser make auth better"`
       returns clarifying questions.
-- [ ] Handle the no-argument case (`/phraser` alone) — operate on the previous
+- [x] Handle the no-argument case (`/phraser` alone) — operate on the previous
       user message, or ask for the idea. Pick one and document it.
       *Verify:* the bare invocation does something useful rather than erroring.
+      (Chose "ask for the idea" — documented inline in commands/phraser.md.
+      A fresh --print session has no reliable prior message to fall back to;
+      asking is the safer default. Verified live: bare /phraser:phraser
+      returns "What rough prompt would you like me to sharpen?" rather than
+      erroring or guessing.)
 - [ ] Ensure a well-formed prompt passed to `/phraser` produces the structured
       expansion and **no** questions — manual invocation must not manufacture
       ambiguity to justify itself.
