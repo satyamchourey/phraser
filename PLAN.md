@@ -336,6 +336,10 @@ complaint).
       implementing, which this skill's non-goals forbid.
       *Verify:* a headless run on a `fine` fixture emits the delimiter and
       the approval line, and attempts no edits.
+      (Verified on fine-05: full delimited block with all five sections and
+      the approval line; `git status` unchanged afterwards, so nothing was
+      edited. Also added an explicit non-goal — the skill never carries out
+      the sharpened prompt, even when the work is small and obvious.)
 - [ ] Update `commands/gist.md`'s body to match the new two-shape contract
       (stop at the block; never implement).
       *Verify:* `/phraser:gist` on a fine fixture ends at the block with the

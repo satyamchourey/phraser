@@ -111,29 +111,56 @@ Passport.js; user model at `src/db/models/user.js`," questions 1 and 3
 are already answered — don't ask them. Only question 2 would remain,
 so this becomes a single targeted question, not three.
 
-## Output shape B — structured expansion
+## Output shape B — the sharpened prompt
 
-Used when nothing needs asking: either the prompt was resolvable from
-context, or every open point is the stylistic kind step 3 says to default
-on instead of asking about. Always the same four sections, plus a fifth
-naming any assumption made.
+The end product, reached either directly (nothing needed asking) or after
+one round of shape A. Always the same five sections.
+
+Set it apart from ordinary conversation with the delimiters below — this
+block is the deliverable, and it should be obvious at a glance where it
+starts and ends, and copy-pasteable on its own. Then ask for approval and
+**stop**.
+
+```
+═══ SHARPENED PROMPT ═══════════════════
+
+**Goal:** …
+**Constraints:** …
+**Files in scope:** …
+**Done when:** …
+**Assumptions stated:** …
+
+════════════════════════════════════════
+Approved? Reply yes to go ahead, or tell me what to change.
+```
+
+The approval line is deliberately plain prose, not `AskUserQuestion`:
+answering through a tool would leave you mid-turn holding an "approved",
+and the natural next move from there is to start building — which is
+exactly what this skill must not do. A prose question ends the turn, so
+the work only begins when the user actually sends the next message.
 
 > **Prompt:** `clean up the styling in this component`
 > **Context used:** git diff shows `src/components/Card.jsx` as the only
 > file with uncommitted changes this session — resolves "this component".
 >
-> - **Goal:** Clean up the styling in `src/components/Card.jsx`.
-> - **Constraints:** Styling-only pass — preserve the existing props API
->   and visual behavior; not a redesign.
-> - **Files in scope:** `src/components/Card.jsx` and its co-located
->   stylesheet, if one exists.
-> - **Done when:** No functional or visual regressions; class names and
->   structure match the convention used by sibling components in
->   `src/components/`.
-> - **Assumptions stated:** "Clean up" read as consolidating duplicated
->   class names and removing dead styles, not a visual redesign — a
->   structural call within reasonable discretion (step 3), not something
->   worth a question.
+> ═══ SHARPENED PROMPT ═══════════════════
+>
+> **Goal:** Clean up the styling in `src/components/Card.jsx`.
+> **Constraints:** Styling-only pass — preserve the existing props API
+> and visual behavior; not a redesign.
+> **Files in scope:** `src/components/Card.jsx` and its co-located
+> stylesheet, if one exists.
+> **Done when:** No functional or visual regressions; class names and
+> structure match the convention used by sibling components in
+> `src/components/`.
+> **Assumptions stated:** "Clean up" read as consolidating duplicated
+> class names and removing dead styles, not a visual redesign — a
+> structural call within reasonable discretion (step 3), not something
+> worth a question.
+>
+> ════════════════════════════════════════
+> Approved? Reply yes to go ahead, or tell me what to change.
 
 ## What this skill does not do
 
@@ -144,3 +171,7 @@ naming any assumption made.
 - It does not invent scope the user didn't imply. An assumption stated
   in the expansion should be the smallest reasonable reading of the
   prompt, not the most ambitious one.
+- **It does not carry out the sharpened prompt.** The job ends at the
+  SHARPENED PROMPT block and the approval question — no edits, no
+  commands, no "and I've gone ahead and started". Even when the work is
+  obvious and small, stop there and let the user approve first.
