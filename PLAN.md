@@ -144,7 +144,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M5 — The `/phraser` command
 
-- [ ] Replace the M1 placeholder `commands/phraser.md` with the real command:
+- [x] Replace the M1 placeholder `commands/phraser.md` with the real command:
       takes the rough idea as arguments, invokes the `phraser-expand` skill,
       returns questions or the sharpened prompt.
       *Verify:* `claude --plugin-dir . --print "/phraser:phraser make auth better"`
