@@ -32,7 +32,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 - [x] Add `package.json`: name `phraser`, version `0.1.0`, `"type": "module"`,
       `engines.node >= 20`, no dependencies, `"test": "node --test tests/"`.
       *Verify:* `npm test` runs and exits 0 with "no tests found" (or equivalent).
-- [ ] Create the empty directory skeleton from spec §3 with `.gitkeep` files:
+- [x] Create the empty directory skeleton from spec §3 with `.gitkeep` files:
       `.claude-plugin/`, `skills/phraser-expand/`, `commands/`, `scripts/`,
       `tests/golden-prompts/`.
       *Verify:* `find . -type d -not -path './.git/*'` matches spec §3 minus the
