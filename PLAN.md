@@ -222,14 +222,25 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M8 — Docs
 
-- [ ] Write `README.md` in the spec §7 order: problem → before/after example →
+- [x] Write `README.md` in the spec §7 order: problem → before/after example →
       install command → what v0.1 does and does not do (state plainly that
       auto-trigger is v0.2) → contributing.
       *Verify:* a reader who has never seen the repo can install and run
       `/phraser` from the README alone, with no other file open.
-- [ ] Use a real before/after transcript in the README, captured from an actual
+      (Uses the verified `/phraser:phraser` qualified form throughout, not
+      bare `/phraser` — see M1's finding. Verified end-to-end: fresh `git
+      clone` of the real pushed repo into a scratch dir, README's exact
+      commands run unmodified — `claude --plugin-dir . plugin validate .`,
+      then `claude --plugin-dir . --print "/phraser:phraser Bump the
+      version..."` — produced a correct structured expansion.)
+- [x] Use a real before/after transcript in the README, captured from an actual
       run — not an invented one.
       *Verify:* the transcript reproduces when re-run.
+      (Both transcripts (vague "make auth better" -> 3 questions; fine
+      "Bump the version..." -> structured expansion) are copy-pasted from
+      real `claude --plugin-dir . --print` runs, re-run once to confirm the
+      same shape/behavior reproduces — not byte-identical, since it's
+      model-generated text, but consistently correct.)
 - [ ] Add `CHANGELOG.md` with a `0.1.0` entry (Keep a Changelog format).
       *Verify:* version matches `plugin.json` and `package.json`.
 - [ ] Record the GIF for the README (§7) and embed it. **Requires the author —
