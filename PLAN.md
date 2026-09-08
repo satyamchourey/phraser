@@ -8,7 +8,7 @@ them are done.
 ## Scope decisions (read first)
 
 The spec has one internal conflict: §3 says "two invocation modes, both
-included," while §8 scopes v0.1 to "manual `/phraser` command only, no
+included," while §8 scopes v0.1 to "manual `/phraser:gist` command only, no
 auto-hook, no config beyond defaults." **This plan follows §8.**
 
 Consequences:
@@ -48,13 +48,13 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       version `0.1.0`, description, author, and only the keys v0.1 actually
       ships (`skills`, `commands`; **no** `hooks` key).
       *Verify:* `claude plugin validate .` passes.
-- [x] Add a placeholder `commands/phraser.md` (frontmatter + one-line body) so
+- [x] Add a placeholder `commands/gist.md` (frontmatter + one-line body) so
       the plugin loads with a real command registered.
-      *Verify:* `claude --plugin-dir . --print "/phraser:phraser hello"` returns
+      *Verify:* `claude --plugin-dir . --print "/phraser:gist hello"` returns
       without an unknown-command error. (Note: headless `--print` invocation of
-      a plugin command requires the `<plugin>:<command>` qualified form — bare
-      `/phraser` is not resolved outside an interactive session. Confirmed
-      against Claude Code CLI 2.1.263.)
+      a plugin command requires the `<plugin>:<command>` qualified form — the
+      bare command name is not resolved outside an interactive session.
+      Confirmed against Claude Code CLI 2.1.263.)
 
 ## M2 — Heuristic gate (`scripts/gate.js`)
 
@@ -146,25 +146,25 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       model; "add auth" through the skill correctly skipped both and asked
       only the one remaining genuine gap, route scope.)
 
-## M5 — The `/phraser` command
+## M5 — The `/phraser:gist` command
 
-- [x] Replace the M1 placeholder `commands/phraser.md` with the real command:
+- [x] Replace the M1 placeholder `commands/gist.md` with the real command:
       takes the rough idea as arguments, invokes the `phraser-expand` skill,
       returns questions or the sharpened prompt.
-      *Verify:* `claude --plugin-dir . --print "/phraser:phraser make auth better"`
+      *Verify:* `claude --plugin-dir . --print "/phraser:gist make auth better"`
       returns clarifying questions.
-- [x] Handle the no-argument case (`/phraser` alone) — operate on the previous
+- [x] Handle the no-argument case (`/phraser:gist` alone) — operate on the previous
       user message, or ask for the idea. Pick one and document it.
       *Verify:* the bare invocation does something useful rather than erroring.
-      (Chose "ask for the idea" — documented inline in commands/phraser.md.
+      (Chose "ask for the idea" — documented inline in commands/gist.md.
       A fresh --print session has no reliable prior message to fall back to;
-      asking is the safer default. Verified live: bare /phraser:phraser
+      asking is the safer default. Verified live: bare /phraser:gist
       returns "What rough prompt would you like me to sharpen?" rather than
       erroring or guessing.)
-- [x] Ensure a well-formed prompt passed to `/phraser` produces the structured
+- [x] Ensure a well-formed prompt passed to `/phraser:gist` produces the structured
       expansion and **no** questions — manual invocation must not manufacture
       ambiguity to justify itself.
-      *Verify:* `/phraser:phraser` on three `expected: "fine"` fixtures asks zero
+      *Verify:* `/phraser:gist` on three `expected: "fine"` fixtures asks zero
       questions.
       (fine-02, fine-05, fine-15 — chosen because they reference real files in
       this repo — all produced full structured expansions with zero
@@ -226,12 +226,12 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       install command → what v0.1 does and does not do (state plainly that
       auto-trigger is v0.2) → contributing.
       *Verify:* a reader who has never seen the repo can install and run
-      `/phraser` from the README alone, with no other file open.
-      (Uses the verified `/phraser:phraser` qualified form throughout, not
-      bare `/phraser` — see M1's finding. Verified end-to-end: fresh `git
+      `/phraser:gist` from the README alone, with no other file open.
+      (Uses the verified `/phraser:gist` qualified form throughout, not
+      the bare command name — see M1's finding. Verified end-to-end: fresh `git
       clone` of the real pushed repo into a scratch dir, README's exact
       commands run unmodified — `claude --plugin-dir . plugin validate .`,
-      then `claude --plugin-dir . --print "/phraser:phraser Bump the
+      then `claude --plugin-dir . --print "/phraser:gist Bump the
       version..."` — produced a correct structured expansion.)
 - [x] Use a real before/after transcript in the README, captured from an actual
       run — not an invented one.
@@ -270,7 +270,9 @@ awkward `/phraser:phraser` stutter.
 **Naming note:** this milestone renames the command `phraser` → `gist`, so
 invocation becomes `/phraser:gist`. Every reference in this file has been
 updated to the new name, but all M1–M9 verifications recorded above were
-originally run under the old `/phraser:phraser` name.
+originally run under the old `/phraser:phraser` name. (The *skill* is still
+`phraser-expand`, i.e. `phraser:phraser-expand` — only the command was
+renamed.)
 
 **Answer-routing decision (task 4):** Claude Code has no structured
 multi-turn form input for slash commands. It does have `AskUserQuestion`,
@@ -289,14 +291,27 @@ complaint).
       *Verify:* `claude plugin validate . --strict` passes; `/phraser:gist
       hello` resolves; `/phraser:phraser` no longer does.
       (All three confirmed; old name returns "Unknown command".)
-- [ ] Update `tests/skill.headless.js` to invoke `/phraser:gist`.
+- [x] Update `tests/skill.headless.js` to invoke `/phraser:gist`.
       *Verify:* `npm run test:skill` passes 5/5 live; `npm test` unaffected
       (60/60).
-- [ ] Update every remaining reference to the old command name: `README.md`,
+      (First run: 4/5, with fine-15 failing ETIMEDOUT at exactly 60s — a
+      latent bug in M6's harness, not the rename: that fixture took 52.9s
+      back in M6, so the 60s budget never had headroom. Raised the per-call
+      budget to 180s and made a timeout report itself as a latency failure
+      rather than a bare stack trace. Re-run: 5/5, with fine-15 taking 83.5s
+      — beyond the old cap, confirming the fix was necessary.)
+- [x] Update every remaining reference to the old command name: `README.md`,
       `CHANGELOG.md`, `skills/phraser-expand/SKILL.md`, this file, and
       `phraser-project-spec.md`.
       *Verify:* grep for `phraser:phraser` and bare `/phraser ` finds no
       stale command references outside this milestone's naming note.
+      (Confirmed: the only remaining `phraser:phraser` hits are the four in
+      M10 that intentionally document the rename. `phraser:phraser-expand`
+      is deliberately untouched — the skill was not renamed. Two PLAN.md
+      notes about *bare-name* resolution were reworded to be name-agnostic,
+      since the bare form is now `/gist`, and the README's namespacing
+      aside was rewritten — it claimed plugin and command were "both named
+      phraser", which the rename made false.)
 - [ ] Add an answer-routing section to SKILL.md: prefer `AskUserQuestion`
       when questions are choice-shaped (≤3 questions, 2–4 options each,
       "Other" carries free text); fall back to a delimited

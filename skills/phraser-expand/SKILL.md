@@ -1,6 +1,6 @@
 ---
 name: phraser-expand
-description: Use when a user's prompt is vague or under-specified — a generic verb with no clear target (fix, improve, handle, clean up, make better), no file/module/scope named, or no definition of what "done" looks like. Sharpens the prompt into either a short round of clarifying questions or a structured instruction (goal, constraints, files in scope, done-when) before any work begins. Triggered by the local heuristic gate (scripts/gate.js) flagging a prompt "vague", or by the user invoking /phraser directly.
+description: Use when a user's prompt is vague or under-specified — a generic verb with no clear target (fix, improve, handle, clean up, make better), no file/module/scope named, or no definition of what "done" looks like. Sharpens the prompt into either a short round of clarifying questions or a structured instruction (goal, constraints, files in scope, done-when) before any work begins. Triggered by the local heuristic gate (scripts/gate.js) flagging a prompt "vague", or by the user invoking /phraser:gist directly.
 ---
 
 # phraser-expand
@@ -103,7 +103,7 @@ naming any assumption made.
 
 - It does not re-run the heuristic gate — by the time this skill is
   loaded, something has already decided the prompt is worth a closer
-  look (the gate, or a direct `/phraser` invocation).
+  look (the gate, or a direct `/phraser:gist` invocation).
 - It does not chain further clarify rounds. One round, then proceed.
 - It does not invent scope the user didn't imply. An assumption stated
   in the expansion should be the smallest reasonable reading of the

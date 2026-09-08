@@ -50,12 +50,28 @@ const skip = hasClaudeCli()
   ? false
   : 'claude CLI not found or not authenticated — skipping live skill tests';
 
+// Live model calls vary a lot: observed 18s-60s+ for the same fixtures across
+// runs. A tight budget here fails the suite for being slow rather than for
+// being wrong, so this is deliberately generous — this harness is opt-in
+// (`npm run test:skill`), never on the fast path.
+const CALL_TIMEOUT_MS = 180_000;
+
 function runPhraser(prompt) {
-  return execFileSync(
-    'claude',
-    ['--plugin-dir', pluginDir, '--print', `/phraser:phraser ${prompt}`],
-    { stdio: ['ignore', 'pipe', 'pipe'], timeout: 60_000, encoding: 'utf8' },
-  );
+  try {
+    return execFileSync(
+      'claude',
+      ['--plugin-dir', pluginDir, '--print', `/phraser:gist ${prompt}`],
+      { stdio: ['ignore', 'pipe', 'pipe'], timeout: CALL_TIMEOUT_MS, encoding: 'utf8' },
+    );
+  } catch (err) {
+    if (err.code === 'ETIMEDOUT') {
+      throw new Error(
+        `claude --print exceeded ${CALL_TIMEOUT_MS / 1000}s for prompt: ${prompt}\n` +
+          'This is a latency failure, not an assertion failure — the skill may still be correct.',
+      );
+    }
+    throw err;
+  }
 }
 
 const QUESTION_PATTERN = /\?/;

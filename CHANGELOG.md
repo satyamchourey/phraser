@@ -32,7 +32,7 @@ section 8 for the full roadmap.
   goal → gather context (`CLAUDE.md`, recently touched files, `git diff`)
   → ask only if scope or "done" is genuinely unclear → cap at 3 questions
   → one clarify round, then proceed with stated assumptions.
-- `commands/phraser.md` (`/phraser`) — manual invocation. Takes a rough
+- `commands/gist.md` (`/phraser:gist`) — manual invocation. Takes a rough
   prompt as arguments (or asks for one, if none given) and returns the
   skill's output.
 - `.claude-plugin/plugin.json` — the plugin manifest.
@@ -45,7 +45,7 @@ section 8 for the full roadmap.
 ### Known limitations
 
 - No automatic triggering (`UserPromptSubmit` hook) — every prompt not run
-  through `/phraser` explicitly goes straight to Claude unchanged. Planned
+  through `/phraser:gist` explicitly goes straight to Claude unchanged. Planned
   for v0.2.
 - No `phraser.config.json` — the gate's defaults are hardcoded. Planned
   for v0.2.

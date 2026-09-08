@@ -73,7 +73,7 @@ phraser/
 │   └── phraser-expand/
 │       └── SKILL.md          # the expansion/clarify logic + checklist
 ├── commands/
-│   └── phraser.md            # manual /phraser invocation
+│   └── gist.md               # manual /phraser:gist invocation
 ├── hooks/
 │   └── hooks.json            # optional UserPromptSubmit auto-trigger
 ├── scripts/
@@ -88,7 +88,7 @@ phraser/
 ```
 
 **Two invocation modes, both included:**
-1. **Manual** — `/phraser <rough idea>` — zero automatic overhead, user opts in per-message.
+1. **Manual** — `/phraser:gist <rough idea>` — zero automatic overhead, user opts in per-message.
 2. **Automatic (optional, off by default)** — a `UserPromptSubmit` hook runs
    `gate.js` locally (regex/heuristics only) and only invokes the
    `phraser-expand` skill when the gate flags a message as vague. Toggle in
@@ -102,7 +102,7 @@ phraser/
   "description": "Catches vague prompts and sharpens them before Claude acts.",
   "author": { "name": "Satyam Chourey" },
   "skills": ["skills/phraser-expand"],
-  "commands": ["commands/phraser.md"],
+  "commands": ["commands/gist.md"],
   "hooks": "hooks/hooks.json"
 }
 ```
@@ -184,7 +184,7 @@ typist.
 
 ## 8. Versioning / roadmap
 
-- **v0.1**: manual `/phraser` command only, no auto-hook, no config beyond
+- **v0.1**: manual `/phraser:gist` command only, no auto-hook, no config beyond
   defaults. Ship this first — smallest surface to validate the idea.
 - **v0.2**: optional `UserPromptSubmit` auto-gate, config file.
 - **v0.3**: project-specific checklist support (teams can extend the vague-verb

@@ -23,11 +23,11 @@ questions, one round, then proceed.
 ## Before / after
 
 ```
-$ /phraser:phraser make auth better
+$ /phraser:gist make auth better
 ```
 
-(Plugin commands are namespaced `<plugin>:<command>` — since this plugin
-and its one command are both named `phraser`, that's `/phraser:phraser`.)
+(Plugin commands are namespaced `<plugin>:<command>` — the plugin is
+`phraser`, the command is `gist`, hence `/phraser:gist`.)
 
 > **Prompt:** `make auth better`
 >
@@ -52,7 +52,7 @@ code, so the model correctly can't guess which of those you meant). Compare
 a well-formed prompt run the same way:
 
 ```
-$ /phraser:phraser Bump the version in package.json to 0.2.0.
+$ /phraser:gist Bump the version in package.json to 0.2.0.
 ```
 
 > - **Goal:** Set the `version` field in `package.json` from `0.1.0` to `0.2.0`.
@@ -84,14 +84,14 @@ Then load it for a session with `--plugin-dir`:
 claude --plugin-dir /path/to/phraser
 ```
 
-Inside that session, `/phraser:phraser <rough idea>` is available. (To keep
+Inside that session, `/phraser:gist <rough idea>` is available. (To keep
 it loaded across sessions without `--plugin-dir` every time, add it to your
 Claude Code settings' plugin directories — see `claude plugin --help`.)
 
 ## What v0.1 does — and doesn't
 
 **Does:**
-- `/phraser:phraser <rough idea>` — sharpen a prompt on demand. Zero
+- `/phraser:gist <rough idea>` — sharpen a prompt on demand. Zero
   automatic overhead; you opt in per message.
 - Either asks up to 3 targeted clarifying questions, or expands the prompt
   into a structured instruction (goal / constraints / files in scope / done
@@ -101,7 +101,7 @@ Claude Code settings' plugin directories — see `claude plugin --help`.)
 
 **Doesn't (yet):**
 - **No automatic triggering.** There's no `UserPromptSubmit` hook wired up —
-  every under-specified prompt you type without running `/phraser` goes
+  every under-specified prompt you type without running `/phraser:gist` goes
   straight through to Claude, as if Phraser weren't installed. The
   heuristic gate that would power that (`scripts/gate.js`) is built and
   tested, just not wired to anything yet.
