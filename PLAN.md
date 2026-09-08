@@ -67,7 +67,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       (Note: bare-pronoun's precondition is `!hasScope`, so it always
       co-occurs with the `no-scope-signal` reason by construction — the other
       four signals each isolate cleanly.)
-- [ ] Define the default config object inline in `gate.js` (max questions,
+- [x] Define the default config object inline in `gate.js` (max questions,
       vague verbs, thresholds) and let `opts` shallow-override it. This is the
       seam `phraser.config.json` plugs into in v0.2 — no file reading yet.
       *Verify:* passing `{ vagueVerbs: [] }` flips a verb-only-vague prompt to `fine`.
