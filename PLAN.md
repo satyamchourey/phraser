@@ -97,12 +97,15 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       (Confirmed: forcing checkHasScope() to always return true broke both a
       fixture case and the opts.weights unit test with a clear assertion
       message. Reverted after confirming.)
-- [ ] Add the hard cases: prompts that *look* vague but are fine (short but
+- [x] Add the hard cases: prompts that *look* vague but are fine (short but
       precise, e.g. "bump the version in package.json to 0.2.0") and prompts
       that look fine but are vague (long, file-mentioning, but with no
       definition of done).
       *Verify:* these are labeled in fixtures and passing — tune the gate, not
       the labels, to make them pass.
+      (Already covered by the original fixture set: fine-02 (short-but-precise),
+      vague-21/vague-22 (long, file-mentioning, no acceptance criteria). All
+      three pass under the current gate.js.)
 
 ## M4 — The skill (`skills/phraser-expand/SKILL.md`)
 
