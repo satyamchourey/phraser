@@ -40,7 +40,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M1 — Plugin skeleton (installable, does nothing yet)
 
-- [ ] Write `.claude-plugin/plugin.json` per the spec §3 sketch — name,
+- [x] Write `.claude-plugin/plugin.json` per the spec §3 sketch — name,
       version `0.1.0`, description, author, and only the keys v0.1 actually
       ships (`skills`, `commands`; **no** `hooks` key).
       *Verify:* `claude plugin validate .` passes.

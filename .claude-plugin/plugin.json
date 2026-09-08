@@ -1,0 +1,8 @@
+{
+  "name": "phraser",
+  "version": "0.1.0",
+  "description": "Catches vague prompts and sharpens them before Claude acts.",
+  "author": { "name": "Satyam Chourey" },
+  "skills": ["./skills/phraser-expand"],
+  "commands": ["./commands/phraser.md"]
+}
