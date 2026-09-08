@@ -1,0 +1,266 @@
+[
+  {
+    "id": "vague-01",
+    "prompt": "fix this",
+    "expected": "vague",
+    "note": "No antecedent for 'this', no scope, no definition of done. Spec's own example."
+  },
+  {
+    "id": "vague-02",
+    "prompt": "make it better",
+    "expected": "vague",
+    "note": "Classic vague-verb + bare pronoun. Spec's own example."
+  },
+  {
+    "id": "vague-03",
+    "prompt": "clean up the code",
+    "expected": "vague",
+    "note": "Vague verb, no file/module named, no acceptance criteria."
+  },
+  {
+    "id": "vague-04",
+    "prompt": "handle the error",
+    "expected": "vague",
+    "note": "Which error, where, and what handling looks like are all unstated."
+  },
+  {
+    "id": "vague-05",
+    "prompt": "improve performance",
+    "expected": "vague",
+    "note": "No target module, no metric, no threshold for 'improved'."
+  },
+  {
+    "id": "vague-06",
+    "prompt": "add auth",
+    "expected": "vague",
+    "note": "Spec's own example. No scope, no acceptance criteria, extremely short."
+  },
+  {
+    "id": "vague-07",
+    "prompt": "the tests are failing, fix them",
+    "expected": "vague",
+    "note": "Doesn't say which tests, what the failure is, or what passing looks like."
+  },
+  {
+    "id": "vague-08",
+    "prompt": "there's a bug somewhere in checkout",
+    "expected": "vague",
+    "note": "Points at an area, not a file or symptom. No reproduction, no expected behavior."
+  },
+  {
+    "id": "vague-09",
+    "prompt": "run the linter and fix issues",
+    "expected": "vague",
+    "note": "Which linter config, which issues are in scope (all vs. new), no stopping condition."
+  },
+  {
+    "id": "vague-10",
+    "prompt": "make the button bigger",
+    "expected": "vague",
+    "note": "Which button, which file, how much bigger, is this a design decision to defer to?"
+  },
+  {
+    "id": "vague-11",
+    "prompt": "we should support pagination",
+    "expected": "vague",
+    "note": "A goal statement, not an instruction. No endpoint, no page-size/cursor decision."
+  },
+  {
+    "id": "vague-12",
+    "prompt": "speed up the build",
+    "expected": "vague",
+    "note": "No baseline, no target, no indication of which step is slow."
+  },
+  {
+    "id": "vague-13",
+    "prompt": "the deploy is broken",
+    "expected": "vague",
+    "note": "A symptom report with no ask, no logs, no target environment."
+  },
+  {
+    "id": "vague-14",
+    "prompt": "just fix it",
+    "expected": "vague",
+    "note": "Maximally under-specified — no antecedent for 'it' at all."
+  },
+  {
+    "id": "vague-15",
+    "prompt": "clean up the styling in this component",
+    "expected": "vague",
+    "note": "'this component' has no antecedent in a fresh prompt, and 'clean up' is open-ended."
+  },
+  {
+    "id": "vague-16",
+    "prompt": "add dark mode",
+    "expected": "vague",
+    "note": "A whole feature with no scope: which screens, a toggle vs. system-preference, persistence?"
+  },
+  {
+    "id": "vague-17",
+    "prompt": "fix the login bug",
+    "expected": "vague",
+    "note": "Names a feature area but not a file, a symptom, or expected behavior."
+  },
+  {
+    "id": "vague-18",
+    "prompt": "improve error handling",
+    "expected": "vague",
+    "note": "No module, no error types, no desired handling behavior."
+  },
+  {
+    "id": "vague-19",
+    "prompt": "make this more maintainable",
+    "expected": "vague",
+    "note": "Bare pronoun, purely subjective goal with no concrete acceptance criteria."
+  },
+  {
+    "id": "vague-20",
+    "prompt": "handle that",
+    "expected": "vague",
+    "note": "Spec-style example: bare pronoun, no scope, no verb specificity."
+  },
+  {
+    "id": "vague-21",
+    "prompt": "refactor the authentication module in src/auth/ to use the new session manager and clean up any duplicated validation logic across the login and signup handlers",
+    "expected": "vague",
+    "note": "Hard case: long and names a real directory, but 'clean up any duplicated logic' has no definition of done — looks fine at a glance, isn't."
+  },
+  {
+    "id": "vague-22",
+    "prompt": "go through the API layer and improve how we handle errors so things are more consistent",
+    "expected": "vague",
+    "note": "Hard case: mentions a real area (API layer) but 'improve' and 'more consistent' define no concrete target."
+  },
+  {
+    "id": "fine-01",
+    "prompt": "Add a rate limiter to the /api/login endpoint in src/routes/auth.js: max 5 requests per minute per IP, return 429 with a Retry-After header when exceeded.",
+    "expected": "fine",
+    "note": "File, endpoint, exact limits, and exact expected behavior all stated."
+  },
+  {
+    "id": "fine-02",
+    "prompt": "Bump the version in package.json to 0.2.0.",
+    "expected": "fine",
+    "note": "Hard case: only 7 words, but the file and the exact target value make it unambiguous."
+  },
+  {
+    "id": "fine-03",
+    "prompt": "Rename the getData function to fetchUserProfile in src/api/user.js and update all call sites.",
+    "expected": "fine",
+    "note": "Precise rename with file and scope of the change (call sites) stated."
+  },
+  {
+    "id": "fine-04",
+    "prompt": "Write a node:test suite for scripts/gate.js covering the five signals: vague-verb, bare-pronoun, no-scope, no-acceptance, and too-short.",
+    "expected": "fine",
+    "note": "Concrete target file and an explicit checklist of what the tests must cover."
+  },
+  {
+    "id": "fine-05",
+    "prompt": "Add a .gitignore entry for the coverage/ directory.",
+    "expected": "fine",
+    "note": "Single, unambiguous, self-contained edit."
+  },
+  {
+    "id": "fine-06",
+    "prompt": "Delete the unused scripts/old-gate.js file.",
+    "expected": "fine",
+    "note": "Exact file, exact action, nothing left to interpret."
+  },
+  {
+    "id": "fine-07",
+    "prompt": "In README.md, replace the placeholder install command with `npm i -g phraser`.",
+    "expected": "fine",
+    "note": "File, exact old/new content."
+  },
+  {
+    "id": "fine-08",
+    "prompt": "Add error handling to fetchUser in src/api/user.js so it throws a typed NotFoundError when the API responds with 404.",
+    "expected": "fine",
+    "note": "Function, file, and exact expected behavior (which status maps to which error) all stated."
+  },
+  {
+    "id": "fine-09",
+    "prompt": "Add pagination to the /users endpoint in src/api/users.js: cursor-based, page size 20, next cursor returned in the response body.",
+    "expected": "fine",
+    "note": "Same topic as vague-11 ('we should support pagination') but fully specified — shows the gate keys on specificity, not topic."
+  },
+  {
+    "id": "fine-10",
+    "prompt": "Fix the typo in README.md: 'recieve' should be 'receive'.",
+    "expected": "fine",
+    "note": "Contains a vague verb ('fix') but scope and exact change are unambiguous."
+  },
+  {
+    "id": "fine-11",
+    "prompt": "Extract the duplicated validation logic in src/forms/login.js and src/forms/signup.js into a shared validate(fields, rules) helper in src/forms/validate.js.",
+    "expected": "fine",
+    "note": "Names both source files and the new shared file plus its signature."
+  },
+  {
+    "id": "fine-12",
+    "prompt": "Set up Prettier with the default config and add a `format` script to package.json.",
+    "expected": "fine",
+    "note": "Concrete tool, concrete config choice (default), concrete deliverable."
+  },
+  {
+    "id": "fine-13",
+    "prompt": "Add a pre-commit hook that runs `npm test` and blocks the commit on failure.",
+    "expected": "fine",
+    "note": "Exact command and exact behavior on failure."
+  },
+  {
+    "id": "fine-14",
+    "prompt": "Write a CHANGELOG.md entry for v0.1.0 listing the gate, fixtures, and skill as shipped.",
+    "expected": "fine",
+    "note": "Exact file, exact version, exact content to include."
+  },
+  {
+    "id": "fine-15",
+    "prompt": "In scripts/gate.js, lower DEFAULT_THRESHOLD from 3 to 2.",
+    "expected": "fine",
+    "note": "Single-value config change in a named file."
+  },
+  {
+    "id": "fine-16",
+    "prompt": "Run `npm test` and paste the output.",
+    "expected": "fine",
+    "note": "A concrete, self-contained command with no ambiguity about what's being asked."
+  },
+  {
+    "id": "fine-17",
+    "prompt": "Add a GitHub Actions workflow at .github/workflows/ci.yml that runs `claude plugin validate .` and `npm test` on push and pull_request, using Node 20.",
+    "expected": "fine",
+    "note": "Exact path, exact steps, exact triggers, exact Node version."
+  },
+  {
+    "id": "fine-18",
+    "prompt": "In src/api/user.js, change the default page size for listUsers from 10 to 20.",
+    "expected": "fine",
+    "note": "Single named function, single named file, exact old/new value."
+  },
+  {
+    "id": "fine-19",
+    "prompt": "Add a CONTRIBUTING.md section titled 'Running tests locally' with the `npm test` and `npm run test:skill` commands.",
+    "expected": "fine",
+    "note": "Exact file, exact heading, exact content."
+  },
+  {
+    "id": "fine-20",
+    "prompt": "Sort the vagueVerbs array in scripts/gate.js alphabetically.",
+    "expected": "fine",
+    "note": "Trivial, unambiguous, single-file mechanical edit."
+  },
+  {
+    "id": "fine-21",
+    "prompt": "Squash the last 3 commits on this branch into one commit titled 'Add golden-prompt fixtures'.",
+    "expected": "fine",
+    "note": "Exact git operation, exact count, exact resulting message."
+  },
+  {
+    "id": "fine-22",
+    "prompt": "In tests/gate.test.js, use `describe`/`it` blocks grouped by signal instead of one flat list of `test()` calls — that's a stylistic call, not a functional one.",
+    "expected": "fine",
+    "note": "Stylistic/structural preference the user has explicitly decided — nothing left to ask."
+  }
+]

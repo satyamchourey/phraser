@@ -78,11 +78,12 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M3 — Golden-prompt fixtures & gate tests
 
-- [ ] Create `tests/golden-prompts/fixtures.json`: 30–50 prompts, each
+- [x] Create `tests/golden-prompts/fixtures.json`: 30–50 prompts, each
       `{ id, prompt, expected: "vague" | "fine", note }`. Draft realistic
       Claude Code prompts, not toy sentences. **Author review of the labels is
       a required step before this is committed.**
       *Verify:* file parses; counts are roughly balanced between the two labels.
+      (44 fixtures, 22/22 split. Author-reviewed and approved 2026-09-08.)
 - [ ] Write `tests/gate.test.js`: one `node:test` case per fixture, asserting
       `gate(prompt).verdict === expected`, with the failure message printing
       the prompt, expected, actual, and `reasons`.
