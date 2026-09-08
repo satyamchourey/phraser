@@ -284,10 +284,11 @@ question context and adds friction), and prose framing alone (zero friction
 but leaves routing a convention rather than a mechanism — the original
 complaint).
 
-- [ ] Rename `commands/phraser.md` → `commands/gist.md`; update
+- [x] Rename `commands/phraser.md` → `commands/gist.md`; update
       `.claude-plugin/plugin.json`.
       *Verify:* `claude plugin validate . --strict` passes; `/phraser:gist
       hello` resolves; `/phraser:phraser` no longer does.
+      (All three confirmed; old name returns "Unknown command".)
 - [ ] Update `tests/skill.headless.js` to invoke `/phraser:gist`.
       *Verify:* `npm run test:skill` passes 5/5 live; `npm test` unaffected
       (60/60).
