@@ -71,7 +71,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       vague verbs, thresholds) and let `opts` shallow-override it. This is the
       seam `phraser.config.json` plugs into in v0.2 — no file reading yet.
       *Verify:* passing `{ vagueVerbs: [] }` flips a verb-only-vague prompt to `fine`.
-- [ ] Handle degenerate input without throwing: empty string, whitespace only,
+- [x] Handle degenerate input without throwing: empty string, whitespace only,
       very long prompt, non-string. Never throw — spec §1 requires the gate
       never block a prompt.
       *Verify:* each degenerate input returns a well-formed verdict object.
