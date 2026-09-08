@@ -241,8 +241,9 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       real `claude --plugin-dir . --print` runs, re-run once to confirm the
       same shape/behavior reproduces — not byte-identical, since it's
       model-generated text, but consistently correct.)
-- [ ] Add `CHANGELOG.md` with a `0.1.0` entry (Keep a Changelog format).
+- [x] Add `CHANGELOG.md` with a `0.1.0` entry (Keep a Changelog format).
       *Verify:* version matches `plugin.json` and `package.json`.
+      (All three: 0.1.0. Confirmed via grep.)
 - [ ] Record the GIF for the README (§7) and embed it. **Requires the author —
       not automatable.**
       *Verify:* the GIF renders on GitHub, not just locally.
