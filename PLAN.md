@@ -210,10 +210,15 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       nvm before touching CI. Fixed by listing test files explicitly in
       package.json's `test` script, which is identical on both. Re-pushed;
       run went green — see run history.)
-- [ ] Decide and document how CI treats the skill-level tests — expected to be
+- [x] Decide and document how CI treats the skill-level tests — expected to be
       skipped (no credentials on a public runner). Leave a comment in the
       workflow saying so, so a contributor isn't confused by the skip.
       *Verify:* the CI log shows skips, not failures, and the run is green.
+      (Decision: run npm run test:skill in CI rather than omit it, so the
+      skip is asserted, not just assumed — comment explaining why is inline
+      in ci.yml. Confirmed on the green run: "Run skill-level tests" step
+      succeeded (5/5 skipped, no claude auth on the runner), full run
+      conclusion "success". https://github.com/satyamchourey/phraser/actions/runs/34218229108)
 
 ## M8 — Docs
 
