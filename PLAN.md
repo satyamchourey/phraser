@@ -54,7 +54,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M2 — Heuristic gate (`scripts/gate.js`)
 
-- [ ] Write `scripts/gate.js` exporting a single pure function
+- [x] Write `scripts/gate.js` exporting a single pure function
       `gate(prompt, opts)` returning `{ verdict: "vague" | "fine", reasons: [] }`.
       No I/O, no LLM call, no `process` access — pure string in, object out.
       *Verify:* `node -e` one-liner against two obvious prompts returns the
