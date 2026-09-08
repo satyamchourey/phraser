@@ -59,11 +59,14 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       No I/O, no LLM call, no `process` access — pure string in, object out.
       *Verify:* `node -e` one-liner against two obvious prompts returns the
       expected verdicts.
-- [ ] Implement the individual signals as separately-named internal checks so
+- [x] Implement the individual signals as separately-named internal checks so
       each is testable and each can name itself in `reasons`: prompt length,
       vague-verb match, no file/path/module mention, no acceptance criteria,
       bare-pronoun scope ("this", "it") with no antecedent.
       *Verify:* a prompt tripping exactly one signal reports exactly one reason.
+      (Note: bare-pronoun's precondition is `!hasScope`, so it always
+      co-occurs with the `no-scope-signal` reason by construction — the other
+      four signals each isolate cleanly.)
 - [ ] Define the default config object inline in `gate.js` (max questions,
       vague verbs, thresholds) and let `opts` shallow-override it. This is the
       seam `phraser.config.json` plugs into in v0.2 — no file reading yet.
