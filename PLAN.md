@@ -322,6 +322,11 @@ complaint).
       block (exercises the fallback, since the tool is absent there). The
       interactive `AskUserQuestion` path cannot be verified headlessly —
       it folds into M9's cross-surface smoke test.
+      (Verified on vague-13 "the deploy is broken": emitted the delimited
+      PHRASER — CLARIFYING QUESTIONS block with the closing "reply with
+      your answers" line. It picked the fallback for the right reason too —
+      one of its three questions was "paste the error", which has no honest
+      multiple-choice form.)
 - [ ] Rework output shape B in SKILL.md: a delimited `SHARPENED PROMPT`
       block (goal / constraints / files in scope / done when / assumptions
       stated), then an explicit prose approval ask ("Approved? Reply yes, or

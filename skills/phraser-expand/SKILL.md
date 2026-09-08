@@ -59,6 +59,38 @@ Used when scope or done-ness is genuinely unclear even after gathering
 context. At most 3 questions, each one closing a real gap — not a
 checklist.
 
+### How to ask: route the answer back into this flow
+
+The answer must land back in *this* sharpening flow, not arrive as an
+unrelated new request. Two ways to ask, in order of preference:
+
+1. **Use the `AskUserQuestion` tool** when the open points are
+   choice-shaped — that is, when you can offer genuinely distinct, plausible
+   options rather than inventing filler. The user's selection returns inside
+   this same turn, so you continue straight to shape B without the answer
+   ever looking like a fresh message. Fits this skill's limits naturally:
+   at most 3 questions, 2–4 options each, and the automatic "Other" choice
+   carries free-text when none of the options fit.
+
+2. **Fall back to a delimited prose block** when either the tool is
+   unavailable (it does not exist in headless / `--print` sessions) **or**
+   at least one question is genuinely open-ended, where options would be
+   invented filler — "paste the error you're seeing" has no good multiple
+   choice. Prefer one coherent interaction: if any question needs prose,
+   ask them all in prose rather than splitting across both mechanisms.
+
+   Frame the block so it's unmistakably a question *from this skill*, and
+   say plainly that the next reply is read as the answer:
+
+   ```
+   ─── PHRASER — CLARIFYING QUESTIONS ───
+   <the questions>
+   ──────────────────────────────────────
+   Reply with your answers and I'll turn them into a sharpened prompt.
+   ```
+
+Either way, ask once. Do not chain a second round (procedure step 5).
+
 > **Prompt:** `add auth`
 >
 > You want to add authentication to the project. Three things change how
@@ -69,6 +101,10 @@ checklist.
 >    ones?
 > 3. Is there an existing user model/database to hook into, or does this
 >    start from scratch?
+
+All three are choice-shaped, so this one is a good `AskUserQuestion` call
+— options like "session-based / JWT / existing provider" are real
+alternatives, not filler.
 
 If a `CLAUDE.md` in that same repo already stated "session-based auth via
 Passport.js; user model at `src/db/models/user.js`," questions 1 and 3
