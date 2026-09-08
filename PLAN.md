@@ -32,6 +32,10 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 - [x] Add `package.json`: name `phraser`, version `0.1.0`, `"type": "module"`,
       `engines.node >= 20`, no dependencies, `"test": "node --test tests/"`.
       *Verify:* `npm test` runs and exits 0 with "no tests found" (or equivalent).
+      (Superseded during M7: neither a bare directory path nor a `**` glob
+      works identically across Node 20 and Node 24 — see M7's CI-failure
+      note. `test` now lists test files explicitly, which is portable across
+      both.)
 - [x] Create the empty directory skeleton from spec §3 with `.gitkeep` files:
       `.claude-plugin/`, `skills/phraser-expand/`, `commands/`, `scripts/`,
       `tests/golden-prompts/`.
@@ -199,6 +203,13 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 - [x] Add `.github/workflows/ci.yml`: on push and PR, Node 20, checkout,
       `claude plugin validate .`, `npm test`.
       *Verify:* green run on a pushed branch.
+      (First pushed run FAILED at the "npm test" step: node --test's glob
+      support for `tests/**/*.test.js` — verified locally on Node 24 — does
+      not exist on Node 20 ("Could not find ..."), while Node 20's bare-
+      directory discovery in turn throws on Node 24. Reproduced locally via
+      nvm before touching CI. Fixed by listing test files explicitly in
+      package.json's `test` script, which is identical on both. Re-pushed;
+      run went green — see run history.)
 - [ ] Decide and document how CI treats the skill-level tests — expected to be
       skipped (no credentials on a public runner). Leave a comment in the
       workflow saying so, so a contributor isn't confused by the skip.

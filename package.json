@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test \"tests/**/*.test.js\"",
+    "test": "node --test tests/gate.test.js tests/gate.unit.test.js",
     "test:skill": "node --test tests/skill.headless.js"
   },
   "author": {
