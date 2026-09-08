@@ -260,6 +260,76 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ---
 
+## M10 — Command rename + clarify/approve UX
+
+Added after live testing of the v0.1 skill surfaced three problems: no clear
+boundary between "answering Phraser" and "talking to Claude"; the final
+sharpened prompt not visually set apart or explicitly approved; and the
+awkward `/phraser:phraser` stutter.
+
+**Naming note:** this milestone renames the command `phraser` → `gist`, so
+invocation becomes `/phraser:gist`. Every reference in this file has been
+updated to the new name, but all M1–M9 verifications recorded above were
+originally run under the old `/phraser:phraser` name.
+
+**Answer-routing decision (task 4):** Claude Code has no structured
+multi-turn form input for slash commands. It does have `AskUserQuestion`,
+which returns the answer *inside the same turn* — but that tool exists only
+in interactive sessions, not in `--print`/headless (verified: a headless
+plugin-loaded session lists 25 tools and `AskUserQuestion` is not among
+them). So the skill prefers the tool when questions are choice-shaped and
+falls back to a delimited prose block otherwise. Rejected alternatives:
+re-invoking the command with the answer (works everywhere but loses the
+question context and adds friction), and prose framing alone (zero friction
+but leaves routing a convention rather than a mechanism — the original
+complaint).
+
+- [ ] Rename `commands/phraser.md` → `commands/gist.md`; update
+      `.claude-plugin/plugin.json`.
+      *Verify:* `claude plugin validate . --strict` passes; `/phraser:gist
+      hello` resolves; `/phraser:phraser` no longer does.
+- [ ] Update `tests/skill.headless.js` to invoke `/phraser:gist`.
+      *Verify:* `npm run test:skill` passes 5/5 live; `npm test` unaffected
+      (60/60).
+- [ ] Update every remaining reference to the old command name: `README.md`,
+      `CHANGELOG.md`, `skills/phraser-expand/SKILL.md`, this file, and
+      `phraser-project-spec.md`.
+      *Verify:* grep for `phraser:phraser` and bare `/phraser ` finds no
+      stale command references outside this milestone's naming note.
+- [ ] Add an answer-routing section to SKILL.md: prefer `AskUserQuestion`
+      when questions are choice-shaped (≤3 questions, 2–4 options each,
+      "Other" carries free text); fall back to a delimited
+      `PHRASER — CLARIFYING QUESTIONS` block when any question is genuinely
+      open-ended **or** the tool is unavailable. Phrase it conditionally so
+      the headless path never references a tool that isn't there.
+      *Verify:* a headless run on a vague fixture still returns a question
+      block (exercises the fallback, since the tool is absent there). The
+      interactive `AskUserQuestion` path cannot be verified headlessly —
+      it folds into M9's cross-surface smoke test.
+- [ ] Rework output shape B in SKILL.md: a delimited `SHARPENED PROMPT`
+      block (goal / constraints / files in scope / done when / assumptions
+      stated), then an explicit prose approval ask ("Approved? Reply yes, or
+      tell me what to change"), then stop. Approval is deliberately prose,
+      not `AskUserQuestion` — a tool answer would leave the model mid-turn
+      holding an "approved", whose likely next move is to start
+      implementing, which this skill's non-goals forbid.
+      *Verify:* a headless run on a `fine` fixture emits the delimiter and
+      the approval line, and attempts no edits.
+- [ ] Update `commands/gist.md`'s body to match the new two-shape contract
+      (stop at the block; never implement).
+      *Verify:* `/phraser:gist` on a fine fixture ends at the block with the
+      approval ask; no implementation begins.
+- [ ] Extend `tests/skill.headless.js` with assertions for the new contract:
+      expansions contain the `SHARPENED PROMPT` delimiter and an approval
+      line; question outputs remain recognizable.
+      *Verify:* `npm run test:skill` passes 5/5 live.
+- [ ] Add an `Unreleased` section to `CHANGELOG.md` covering the rename and
+      both behavior changes.
+      *Verify:* version stays `0.1.0` and consistent across the three files;
+      the section describes all three changes.
+
+---
+
 ## Explicitly deferred (not v0.1)
 
 - `hooks/hooks.json` and `UserPromptSubmit` auto-triggering → v0.2
