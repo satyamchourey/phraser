@@ -196,7 +196,7 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 
 ## M7 — CI
 
-- [ ] Add `.github/workflows/ci.yml`: on push and PR, Node 20, checkout,
+- [x] Add `.github/workflows/ci.yml`: on push and PR, Node 20, checkout,
       `claude plugin validate .`, `npm test`.
       *Verify:* green run on a pushed branch.
 - [ ] Decide and document how CI treats the skill-level tests — expected to be

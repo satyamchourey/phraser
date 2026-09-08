@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Needed for both steps below: `claude plugin validate` and the
+      # skill-level harness's own presence check both need the binary.
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate plugin manifest
+        run: claude plugin validate . --strict
+
+      - name: Run fast tests (gate + unit)
+        run: npm test
+
+      # tests/skill.headless.js drives real `claude --print` calls and
+      # needs an authenticated session. A public GitHub-hosted runner has
+      # no credentials, so hasClaudeCli() in that file detects this and
+      # every case skips cleanly (exit 0) rather than failing — the log
+      # below should show "skipped: 5", not a failure. This step is still
+      # run so that skip is visible and asserted, not just assumed. Run
+      # `npm run test:skill` locally (with an authenticated `claude`) for
+      # real coverage before a release.
+      - name: Run skill-level tests (expected to skip on CI)
+        run: npm run test:skill
