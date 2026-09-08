@@ -157,11 +157,17 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       asking is the safer default. Verified live: bare /phraser:phraser
       returns "What rough prompt would you like me to sharpen?" rather than
       erroring or guessing.)
-- [ ] Ensure a well-formed prompt passed to `/phraser` produces the structured
+- [x] Ensure a well-formed prompt passed to `/phraser` produces the structured
       expansion and **no** questions — manual invocation must not manufacture
       ambiguity to justify itself.
       *Verify:* `/phraser:phraser` on three `expected: "fine"` fixtures asks zero
       questions.
+      (fine-02, fine-05, fine-15 — chosen because they reference real files in
+      this repo — all produced full structured expansions with zero
+      questions. Note: fine-06 "Delete the unused scripts/old-gate.js" was
+      tried first and correctly asked a question, because that file doesn't
+      actually exist in this repo — the fixture's premise is fictional, not
+      a gate/skill defect. Swapped in fine-15 instead.)
 
 ## M6 — Headless skill-level test harness
 
