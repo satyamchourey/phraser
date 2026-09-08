@@ -90,10 +90,13 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       *Verify:* `npm test` runs all fixtures; every one passes.
       (First run: 6 failures, all vague-labeled prompts scoring "fine" — see
       commit for the gate.js tuning that fixed them without touching labels.)
-- [ ] Add targeted unit tests (separate from fixtures) for degenerate input and
+- [x] Add targeted unit tests (separate from fixtures) for degenerate input and
       for `opts` overriding defaults.
       *Verify:* `npm test` passes; deliberately breaking one signal in `gate.js`
       makes a specific, readable test fail.
+      (Confirmed: forcing checkHasScope() to always return true broke both a
+      fixture case and the opts.weights unit test with a clear assertion
+      message. Reverted after confirming.)
 - [ ] Add the hard cases: prompts that *look* vague but are fine (short but
       precise, e.g. "bump the version in package.json to 0.2.0") and prompts
       that look fine but are vague (long, file-mentioning, but with no
