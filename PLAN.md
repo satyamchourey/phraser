@@ -413,6 +413,64 @@ complaint).
 
 ---
 
+## M11 — Marketplace readiness
+
+Prompted by "is this ready for marketplace?" A full audit found one real
+blocker and several genuine gaps, none of which needed a design decision
+except two, both confirmed by the author before starting: MIT LICENSE
+(matches package.json's already-declared license), and keeping
+`phraser-project-spec.md`/`PLAN.md` in the repo (zero runtime cost — never
+loaded by `plugin.json` — and both already intentionally referenced from
+README/CHANGELOG).
+
+**The actual blocker, verified empirically, not assumed:** no
+`.claude-plugin/marketplace.json` exists. `claude plugin marketplace add`
+requires one — confirmed by actually adding a scratch copy of this repo as
+a real marketplace, installing `phraser@phraser` from it, and running
+`/phraser:gist` with **no `--plugin-dir` flag at all** (the true
+marketplace-consumer path). It doesn't work today without this file.
+
+- [ ] Add `.claude-plugin/marketplace.json` (name, owner, description, one
+      plugin entry with `source: "./"`).
+      *Verify:* `claude plugin validate . --strict` passes on the
+      marketplace manifest. Full round-trip in a scratch copy: `marketplace
+      add` → `plugin install phraser@phraser` → `/phraser:gist <prompt>`
+      with no `--plugin-dir` flag → real output, not an error. Clean up the
+      test install/marketplace registration afterward.
+- [ ] Remove `.claude/settings.json` from git tracking; add `.claude/` to
+      `.gitignore`. It's local session permission config (`Bash(git
+      add:*)`, `Bash(git commit:*)`), not project content — a clone
+      shouldn't inherit permission grants from this session.
+      *Verify:* `git ls-files` no longer lists it; `git status` clean after
+      recreating the file locally (gitignore actually catches it).
+- [ ] Add `LICENSE` (MIT), matching `package.json`'s already-declared
+      license.
+      *Verify:* file present, standard MIT text, copyright line matches the
+      author name already in `plugin.json`.
+- [ ] Enrich `.claude-plugin/plugin.json` with `repository`, `homepage`,
+      `keywords`, `author.email` — validated as real accepted schema
+      fields (empirically, against `--strict`), currently missing. Improves
+      marketplace-listing trust/discoverability; `claude plugin validate`
+      doesn't require them, but a listing without them looks unfinished.
+      *Verify:* `claude plugin validate . --strict` still passes; values
+      match the real repo (`github.com/satyamchourey/phraser`) and author.
+- [ ] Update README's "Install" section: replace "isn't published to a
+      marketplace yet" with the real `marketplace add` + `install` flow,
+      keeping `--plugin-dir` as a secondary note for local development.
+      *Verify:* the new instructions are the literal commands verified in
+      task 1's round-trip, not invented ones.
+- [ ] Full re-verification pass: `npm test`, `npm run test:skill` (live),
+      `claude plugin validate . --strict` (both manifests), CI green on the
+      push.
+      *Verify:* all green; no regression from the M11 changes.
+- [ ] Add a `CHANGELOG.md` entry, bump `package.json` + `plugin.json` to
+      `0.1.1` (marketplace-readiness fixes, no behavior change — patch
+      per semver), tag `v0.1.1`.
+      *Verify:* version consistent across all three files; `git tag` shows
+      `v0.1.1`; CI green on the tagged commit.
+
+---
+
 ## Explicitly deferred (not v0.1)
 
 - `hooks/hooks.json` and `UserPromptSubmit` auto-triggering → v0.2
