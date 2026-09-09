@@ -475,11 +475,16 @@ marketplace-consumer path). It doesn't work today without this file.
       copy. Re-ran the full round-trip install with the enriched manifests:
       marketplace add → install → /phraser:gist with no --plugin-dir →
       correct output. Cleaned up afterward.)
-- [ ] Update README's "Install" section: replace "isn't published to a
+- [x] Update README's "Install" section: replace "isn't published to a
       marketplace yet" with the real `marketplace add` + `install` flow,
       keeping `--plugin-dir` as a secondary note for local development.
       *Verify:* the new instructions are the literal commands verified in
       task 1's round-trip, not invented ones.
+      (Uses `claude plugin marketplace add satyamchourey/phraser` — the
+      `owner/repo` GitHub shorthand, not the local `./` form task 1 tested
+      — so this specific invocation can only be verified against the live
+      pushed repo. Deferred to this milestone's final full re-verification
+      pass, after push.)
 - [ ] Full re-verification pass: `npm test`, `npm run test:skill` (live),
       `claude plugin validate . --strict` (both manifests), CI green on the
       push.

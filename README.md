@@ -103,24 +103,24 @@ block either way.
 
 ## Install
 
-Phraser isn't published to a Claude Code plugin marketplace yet (v0.1 is
-manual-invocation only — see below). For now:
+```
+claude plugin marketplace add satyamchourey/phraser
+claude plugin install phraser@phraser
+```
+
+`/phraser:gist <rough idea>` is then available in any session (installs
+user-scoped by default; pass `-s project` or `-s local` to scope it
+differently — see `claude plugin install --help`).
+
+For local development instead — editing the plugin itself, or trying a
+change before it's pushed:
 
 ```
 git clone https://github.com/satyamchourey/phraser.git
 cd phraser
 claude --plugin-dir . plugin validate .   # sanity check
+claude --plugin-dir .                     # load it for this session only
 ```
-
-Then load it for a session with `--plugin-dir`:
-
-```
-claude --plugin-dir /path/to/phraser
-```
-
-Inside that session, `/phraser:gist <rough idea>` is available. (To keep
-it loaded across sessions without `--plugin-dir` every time, add it to your
-Claude Code settings' plugin directories — see `claude plugin --help`.)
 
 ## What v0.1 does — and doesn't
 
