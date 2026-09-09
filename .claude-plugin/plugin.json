@@ -2,7 +2,11 @@
   "name": "phraser",
   "version": "0.1.0",
   "description": "Catches vague prompts and sharpens them before Claude acts.",
-  "author": { "name": "Satyam Chourey" },
+  "author": { "name": "Satyam Chourey", "email": "satyamchourey2605@gmail.com" },
+  "repository": "https://github.com/satyamchourey/phraser",
+  "homepage": "https://github.com/satyamchourey/phraser",
+  "license": "MIT",
+  "keywords": ["prompt-engineering", "clarify", "productivity"],
   "skills": ["./skills/phraser-expand"],
   "commands": ["./commands/gist.md"]
 }

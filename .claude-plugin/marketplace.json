@@ -8,7 +8,8 @@
       "source": "./",
       "description": "Catches vague prompts and sharpens them before Claude acts.",
       "version": "0.1.0",
-      "author": { "name": "Satyam Chourey" }
+      "author": { "name": "Satyam Chourey", "email": "satyamchourey2605@gmail.com" },
+      "keywords": ["prompt-engineering", "clarify", "productivity"]
     }
   ]
 }

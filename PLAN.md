@@ -455,17 +455,26 @@ marketplace-consumer path). It doesn't work today without this file.
       (`git rm --cached` (file kept locally, untracked). `git ls-files`
       confirms zero `.claude/` entries. `git check-ignore -v
       .claude/settings.json` confirms `.gitignore:15 .claude/` catches it.)
-- [ ] Add `LICENSE` (MIT), matching `package.json`'s already-declared
+- [x] Add `LICENSE` (MIT), matching `package.json`'s already-declared
       license.
       *Verify:* file present, standard MIT text, copyright line matches the
       author name already in `plugin.json`.
-- [ ] Enrich `.claude-plugin/plugin.json` with `repository`, `homepage`,
+      (Standard MIT text, copyright "Satyam Chourey" matching plugin.json's
+      author.name, year 2026.)
+- [x] Enrich `.claude-plugin/plugin.json` with `repository`, `homepage`,
       `keywords`, `author.email` — validated as real accepted schema
       fields (empirically, against `--strict`), currently missing. Improves
       marketplace-listing trust/discoverability; `claude plugin validate`
       doesn't require them, but a listing without them looks unfinished.
       *Verify:* `claude plugin validate . --strict` still passes; values
       match the real repo (`github.com/satyamchourey/phraser`) and author.
+      (Also enriched marketplace.json's plugin entry the same way for
+      consistency. Both manifests validated independently — a repo with
+      both in one .claude-plugin/ dir only shows the marketplace one when
+      validating `.`, so plugin.json was checked in isolation in a scratch
+      copy. Re-ran the full round-trip install with the enriched manifests:
+      marketplace add → install → /phraser:gist with no --plugin-dir →
+      correct output. Cleaned up afterward.)
 - [ ] Update README's "Install" section: replace "isn't published to a
       marketplace yet" with the real `marketplace add` + `install` flow,
       keeping `--plugin-dir` as a secondary note for local development.
