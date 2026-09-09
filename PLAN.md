@@ -244,9 +244,22 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
 - [x] Add `CHANGELOG.md` with a `0.1.0` entry (Keep a Changelog format).
       *Verify:* version matches `plugin.json` and `package.json`.
       (All three: 0.1.0. Confirmed via grep.)
-- [ ] Record the GIF for the README (§7) and embed it. **Requires the author —
+- [x] Record the GIF for the README (§7) and embed it. **Requires the author —
       not automatable.**
       *Verify:* the GIF renders on GitHub, not just locally.
+      (`assets/demo.gif`, 6.7MB — a live interactive session showing the
+      real `AskUserQuestion` picker flow (form → functionality → styling
+      questions), the `SHARPENED PROMPT` block, and approval before
+      implementation. Embedded at the top of "Before / after". Re-captured
+      both before/after transcripts live against the post-M10 skill while
+      doing this — the ones written in M8 predated M10's delimited-block/
+      approval contract entirely and no longer matched actual output.
+      Also loosened SKILL.md's "always the same five sections" rule to
+      "task-shaped sections, goal/done-when/assumptions always present" —
+      the demo itself showed the model reasonably using different section
+      names for a from-scratch build (Deliverable/Functionality/UI/Out of
+      scope) than the fixed list assumed, and that adapted output reads
+      better, not worse.)
 
 ## M9 — Release
 

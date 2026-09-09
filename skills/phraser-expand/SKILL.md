@@ -1,6 +1,6 @@
 ---
 name: phraser-expand
-description: Use when a user's prompt is vague or under-specified — a generic verb with no clear target (fix, improve, handle, clean up, make better), no file/module/scope named, or no definition of what "done" looks like. Sharpens the prompt into either a short round of clarifying questions or a structured instruction (goal, constraints, files in scope, done-when) before any work begins. Triggered by the local heuristic gate (scripts/gate.js) flagging a prompt "vague", or by the user invoking /phraser:gist directly.
+description: Use when a user's prompt is vague or under-specified — a generic verb with no clear target (fix, improve, handle, clean up, make better), no file/module/scope named, or no definition of what "done" looks like. Sharpens the prompt into either a short round of clarifying questions or a structured, task-shaped SHARPENED PROMPT block (goal, done-when, and assumptions always present, the rest adapted to the task) requiring explicit approval before any work begins. Triggered by the local heuristic gate (scripts/gate.js) flagging a prompt "vague", or by the user invoking /phraser:gist directly.
 ---
 
 # phraser-expand
@@ -132,19 +132,26 @@ so this becomes a single targeted question, not three.
 ## Output shape B — the sharpened prompt
 
 The end product, reached either directly (nothing needed asking) or after
-one round of shape A. Always the same five sections.
+one round of shape A.
 
 Set it apart from ordinary conversation with the delimiters below — this
 block is the deliverable, and it should be obvious at a glance where it
 starts and ends, and copy-pasteable on its own. Then ask for approval and
 **stop**.
 
+Goal / Done when / Assumptions stated are always present. The middle
+sections adapt to what the task actually is — **Constraints** and **Files
+in scope** fit an edit to existing code; a from-scratch build reads better
+as **Deliverable** / **Functionality** / **UI** / **Out of scope**, or
+whatever the task's own natural shape is. Pick names a reader would
+recognize as covering the same ground (what's being built and how, what's
+explicitly excluded), not a rigid template forced onto every prompt.
+
 ```
 ═══ SHARPENED PROMPT ═══════════════════
 
 **Goal:** …
-**Constraints:** …
-**Files in scope:** …
+<task-shaped middle sections>
 **Done when:** …
 **Assumptions stated:** …
 
