@@ -1,0 +1,14 @@
+{
+  "name": "phraser",
+  "owner": { "name": "Satyam Chourey", "email": "satyamchourey2605@gmail.com" },
+  "description": "Catches vague prompts and sharpens them before Claude acts.",
+  "plugins": [
+    {
+      "name": "phraser",
+      "source": "./",
+      "description": "Catches vague prompts and sharpens them before Claude acts.",
+      "version": "0.1.0",
+      "author": { "name": "Satyam Chourey" }
+    }
+  ]
+}

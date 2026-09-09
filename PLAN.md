@@ -430,19 +430,31 @@ a real marketplace, installing `phraser@phraser` from it, and running
 `/phraser:gist` with **no `--plugin-dir` flag at all** (the true
 marketplace-consumer path). It doesn't work today without this file.
 
-- [ ] Add `.claude-plugin/marketplace.json` (name, owner, description, one
+- [x] Add `.claude-plugin/marketplace.json` (name, owner, description, one
       plugin entry with `source: "./"`).
       *Verify:* `claude plugin validate . --strict` passes on the
       marketplace manifest. Full round-trip in a scratch copy: `marketplace
       add` → `plugin install phraser@phraser` → `/phraser:gist <prompt>`
       with no `--plugin-dir` flag → real output, not an error. Clean up the
       test install/marketplace registration afterward.
-- [ ] Remove `.claude/settings.json` from git tracking; add `.claude/` to
+      (Round-trip run against the real repo itself, not just a scratch
+      copy: `claude plugin marketplace add ./ -s local`, `claude plugin
+      install phraser@phraser -s local -y`, then `claude --print
+      "/phraser:gist ..."` with zero `--plugin-dir` flag — correct
+      SHARPENED PROMPT output. [Note: running from an unrelated cwd
+      (`/tmp`) failed with "Unknown command" — expected, `--scope local`
+      is project-scoped by design, not a bug; re-ran from the project dir.]
+      Cleaned up: disabled the plugin, removed the marketplace
+      registration, deleted the resulting `.claude/settings.local.json`.)
+- [x] Remove `.claude/settings.json` from git tracking; add `.claude/` to
       `.gitignore`. It's local session permission config (`Bash(git
       add:*)`, `Bash(git commit:*)`), not project content — a clone
       shouldn't inherit permission grants from this session.
       *Verify:* `git ls-files` no longer lists it; `git status` clean after
       recreating the file locally (gitignore actually catches it).
+      (`git rm --cached` (file kept locally, untracked). `git ls-files`
+      confirms zero `.claude/` entries. `git check-ignore -v
+      .claude/settings.json` confirms `.gitignore:15 .claude/` catches it.)
 - [ ] Add `LICENSE` (MIT), matching `package.json`'s already-declared
       license.
       *Verify:* file present, standard MIT text, copyright line matches the

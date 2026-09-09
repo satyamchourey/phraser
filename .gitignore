@@ -9,3 +9,7 @@ npm-debug.log*
 .env
 .env.local
 coverage/
+
+# Local Claude Code session config (permissions, settings) — not project
+# content. A clone shouldn't inherit this session's permission grants.
+.claude/
