@@ -5,6 +5,30 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+Documentation and metadata polish for plugin-directory submission. No
+runtime or skill-behavior changes.
+
+### Changed
+
+- `README.md` restructured: an accurate one-line positioning ("Sharpen
+  vague Claude Code prompts before Claude acts on them."), a factual
+  Status section, a step-by-step "what happens when you run it", a "Why
+  Phraser" section describing the interaction contract, and a
+  Security & privacy section. The workflow GIF and both worked transcripts
+  are unchanged. Wording that leaked internal tool-availability details
+  (`AskUserQuestion` present vs. absent) is reframed in terms of what the
+  user sees (interactive picker vs. plain-text block).
+- `description` in `plugin.json`, `marketplace.json`, and `package.json`
+  changed from "Catches vague prompts and sharpens them before Claude
+  acts." to "Sharpens vague Claude Code prompts before Claude acts." — the
+  old wording implied automatic interception, which this release does not
+  do.
+- `repository`, `homepage`, and `license` added to `marketplace.json`'s
+  plugin entry, bringing it to parity with `plugin.json` (which gained them
+  at 0.1.1 — see the corrected addendum in that entry below).
+
 ## [0.1.1] - 2026-09-09
 
 Marketplace readiness, plus one behavior fix caught by live-testing the
@@ -18,9 +42,11 @@ marketplace round-trip.
   not just via `--plugin-dir`. Verified with a full round-trip against the
   real repo: add, install, run `/phraser:gist` with no `--plugin-dir` flag
   at all.
-- `repository`, `homepage`, `license`, `keywords`, `author.email` in both
-  `plugin.json` and `marketplace.json`'s plugin entry — validated as real
-  accepted schema fields, previously missing.
+- `repository`, `homepage`, `license`, `keywords`, `author.email` in
+  `plugin.json` — validated as real accepted schema fields, previously
+  missing. (Addendum: at 0.1.1 the `marketplace.json` plugin entry only
+  gained `keywords` and `author.email`; `repository`/`homepage`/`license`
+  parity there landed later, in the Unreleased polish above.)
 
 ### Fixed
 

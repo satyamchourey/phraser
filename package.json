@@ -1,7 +1,7 @@
 {
   "name": "phraser",
   "version": "0.1.1",
-  "description": "Catches vague prompts and sharpens them before Claude acts.",
+  "description": "Sharpens vague Claude Code prompts before Claude acts.",
   "type": "module",
   "engines": {
     "node": ">=20"

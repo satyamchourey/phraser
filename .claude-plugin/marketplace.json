@@ -1,14 +1,17 @@
 {
   "name": "phraser",
   "owner": { "name": "Satyam Chourey", "email": "satyamchourey2605@gmail.com" },
-  "description": "Catches vague prompts and sharpens them before Claude acts.",
+  "description": "Sharpens vague Claude Code prompts before Claude acts.",
   "plugins": [
     {
       "name": "phraser",
       "source": "./",
-      "description": "Catches vague prompts and sharpens them before Claude acts.",
+      "description": "Sharpens vague Claude Code prompts before Claude acts.",
       "version": "0.1.1",
       "author": { "name": "Satyam Chourey", "email": "satyamchourey2605@gmail.com" },
+      "repository": "https://github.com/satyamchourey/phraser",
+      "homepage": "https://github.com/satyamchourey/phraser",
+      "license": "MIT",
       "keywords": ["prompt-engineering", "clarify", "productivity"]
     }
   ]
