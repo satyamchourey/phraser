@@ -7,7 +7,7 @@
       "name": "phraser",
       "source": "./",
       "description": "Catches vague prompts and sharpens them before Claude acts.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": { "name": "Satyam Chourey", "email": "satyamchourey2605@gmail.com" },
       "keywords": ["prompt-engineering", "clarify", "productivity"]
     }
