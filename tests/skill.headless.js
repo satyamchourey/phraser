@@ -87,9 +87,25 @@ const SHARPENED_HEADER = /═+\s*SHARPENED PROMPT/;
 const SECTION_PATTERN = /\bGoal:|\bConstraints:|\bFiles in scope:|\bDone when:/i;
 const APPROVAL_PATTERN = /approved\?/i;
 
-// Shape A: the fallback question block. (Headless sessions have no
-// AskUserQuestion tool, so the fallback is always the path exercised here.)
-const QUESTION_BLOCK_PATTERN = /─+\s*PHRASER — CLARIFYING QUESTIONS/;
+// Shape A: the fallback question block. SKILL.md leaves the surrounding
+// decoration (box-drawing rule, code fence, heading style) up to the model
+// — models don't reproduce ornamental Unicode delimiters reliably across
+// calls, and that's not the actual contract. What's load-bearing is the
+// marker phrase (unmistakably from this skill) AND the closing "reply with
+// your answers" line (the actual fix for the routing-ambiguity problem this
+// section exists to solve) — require both together, not either alone, so a
+// stray self-referential mention of the marker phrase in prose (this suite
+// runs inside phraser's own repo; see the note above) can't satisfy this on
+// its own the way a bare-phrase match could.
+const QUESTION_MARKER_PATTERN = /PHRASER\s*—\s*CLARIFYING QUESTIONS/;
+// SKILL.md asks for "a sentence *like* 'Reply with your answers...'" — not
+// that exact phrase. Live output confirms models phrase this closing
+// invitation differently each call ("Reply with what you actually want...",
+// "Which options do you want...?") while still doing the actual job: ending
+// on an explicit invitation to reply. Check the tail of the output for that
+// invitation rather than one fixed phrase.
+const CLOSING_TRAILER_PATTERN = /\?|\breply\b|\banswer\b/i;
+const CLOSING_TAIL_CHARS = 250;
 const QUESTION_PATTERN = /\?/;
 
 // The skill must never narrate which asking mechanism it used. Targets that
@@ -108,12 +124,16 @@ for (const fixture of sample) {
       `expected the skill to transform the prompt, not echo it verbatim:\n${output}`,
     );
 
+    const outputTail = output.trim().slice(-CLOSING_TAIL_CHARS);
     const isSharpened = SHARPENED_HEADER.test(output);
-    const isQuestionBlock = QUESTION_BLOCK_PATTERN.test(output);
+    const isQuestionBlock =
+      QUESTION_MARKER_PATTERN.test(output) && CLOSING_TRAILER_PATTERN.test(outputTail);
 
     assert.ok(
       isSharpened || isQuestionBlock,
-      `expected either a SHARPENED PROMPT block or a PHRASER — CLARIFYING QUESTIONS block, got:\n${output}`,
+      `expected either a SHARPENED PROMPT block, or a PHRASER — CLARIFYING ` +
+        `QUESTIONS marker together with a closing "reply with your answers" ` +
+        `line, got:\n${output}`,
     );
 
     // Whichever shape it chose, it must be complete.

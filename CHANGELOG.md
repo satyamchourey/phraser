@@ -5,6 +5,48 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-09-09
+
+Marketplace readiness, plus one behavior fix caught by live-testing the
+marketplace round-trip.
+
+### Added
+
+- `LICENSE` (MIT), matching `package.json`'s already-declared license.
+- `.claude-plugin/marketplace.json` — the plugin is now installable the
+  normal way (`claude plugin marketplace add` + `claude plugin install`),
+  not just via `--plugin-dir`. Verified with a full round-trip against the
+  real repo: add, install, run `/phraser:gist` with no `--plugin-dir` flag
+  at all.
+- `repository`, `homepage`, `license`, `keywords`, `author.email` in both
+  `plugin.json` and `marketplace.json`'s plugin entry — validated as real
+  accepted schema fields, previously missing.
+
+### Fixed
+
+- `.claude/settings.json` was accidentally tracked in git — local session
+  permission config, not project content. A clone would have inherited
+  this session's `Bash(git add:*)` / `Bash(git commit:*)` grants. Removed
+  from tracking; `.claude/` is now gitignored.
+- The fallback clarifying-question block (`phraser-expand`, used when
+  `AskUserQuestion` isn't available) had drifted from two of its own
+  requirements: narrating "AskUserQuestion isn't available, so..." — which
+  it explicitly must not do — and often dropping the closing invitation to
+  reply, in most calls. Neither was new to this release; live-testing here
+  is what caught it. Fixed in `SKILL.md`: the "never narrate" rule now
+  sits at the actual decision point, the closing invitation is explicit
+  and required (worded flexibly — "a sentence *like* X" — since models
+  phrase it differently each call), and the cosmetic box-drawing delimiter
+  is no longer required (models don't reproduce it reliably, and it was
+  never the actual requirement). Verified across 3 more live rounds after
+  the fix: the mechanism-narration leak dropped from routine to roughly
+  1-in-15 calls — a real, substantial improvement, though not full
+  elimination, which is a limit of prompting a probabilistic model against
+  a "never do X" rule, not an unfixed bug.
+- README's "Install" section said Phraser "isn't published to a
+  marketplace yet" — now shows the real `marketplace add` + `install`
+  flow, with `--plugin-dir` kept as a secondary local-development note.
+
 ## [0.1.0] - 2026-09-09
 
 Initial release. Manual invocation only — see `phraser-project-spec.md`

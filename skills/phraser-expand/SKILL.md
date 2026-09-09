@@ -77,9 +77,6 @@ ask.** The default is still shape B. In particular:
   it wrong would waste real work *and* you cannot pick a defensible
   default.
 
-Never narrate the mechanism — no "AskUserQuestion isn't available, so
-here it is in prose". Just ask.
-
 Two ways to ask, in order of preference:
 
 1. **Use the `AskUserQuestion` tool** when the open points are
@@ -90,15 +87,28 @@ Two ways to ask, in order of preference:
    at most 3 questions, 2–4 options each, and the automatic "Other" choice
    carries free-text when none of the options fit.
 
-2. **Fall back to a delimited prose block** when either the tool is
-   unavailable (it does not exist in headless / `--print` sessions) **or**
-   at least one question is genuinely open-ended, where options would be
-   invented filler — "paste the error you're seeing" has no good multiple
-   choice. Prefer one coherent interaction: if any question needs prose,
-   ask them all in prose rather than splitting across both mechanisms.
+2. **Fall back to the block below** when either the tool is unavailable (it
+   does not exist in headless / `--print` sessions) **or** at least one
+   question is genuinely open-ended, where options would be invented filler
+   — "paste the error you're seeing" has no good multiple choice. Prefer
+   one coherent interaction: if any question needs prose, ask them all in
+   prose rather than splitting across both mechanisms.
 
-   Frame the block so it's unmistakably a question *from this skill*, and
-   say plainly that the next reply is read as the answer:
+   Two parts of this are non-negotiable; how you draw the block around them
+   is not:
+
+   - A line containing exactly the words **"PHRASER — CLARIFYING
+     QUESTIONS"**, so it's unmistakable at a glance which skill is asking.
+   - A closing line, always present, always the *last* thing you output —
+     telling the user their next reply is read as the answer to these
+     questions specifically. Not implied, not skippable because it seems
+     obvious: literally write a sentence like "Reply with your answers and
+     I'll turn them into a sharpened prompt." This line is the actual fix
+     for the ambiguity this section exists to solve — dropping it defeats
+     the point even if everything else is present.
+
+   Decorate it however reads best — code fence, box-drawing rule, markdown
+   heading, whatever renders cleanly for the surface you're on:
 
    ```
    ─── PHRASER — CLARIFYING QUESTIONS ───
@@ -106,6 +116,15 @@ Two ways to ask, in order of preference:
    ──────────────────────────────────────
    Reply with your answers and I'll turn them into a sharpened prompt.
    ```
+
+   **Nothing precedes this block. No exceptions.** Never write a sentence
+   explaining that you're falling back to it, that a tool wasn't available,
+   or why you chose this form — a user reading it should have no idea two
+   mechanisms exist. If you notice yourself about to write a sentence
+   containing the word "AskUserQuestion" or the word "available", delete it
+   and start the block instead. Restatement and context notes (step 1, step
+   2) are fine before the block; commentary about *how you're asking* is
+   never fine, in either mechanism.
 
 Either way, ask once. Do not chain a second round (procedure step 5).
 

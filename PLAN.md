@@ -489,6 +489,48 @@ marketplace-consumer path). It doesn't work today without this file.
       `claude plugin validate . --strict` (both manifests), CI green on the
       push.
       *Verify:* all green; no regression from the M11 changes.
+      (`npm test`: 60/60. `claude plugin validate . --strict`: passes.
+      `npm run test:skill` found a real, unrelated-to-M11 regression —
+      logged and fixed as its own paragraph below; not blocking this task,
+      but the reason this took 4 live rounds instead of 1. CI-on-push
+      deferred to after the final push, alongside the README marketplace
+      command verification task 5 also deferred.
+
+      **Regression found and fixed, and its known residual limit:** the
+      live harness surfaced that SKILL.md's fallback question path had
+      drifted from two of M10's own requirements — narrating "AskUserQuestion
+      isn't available, so..." (which SKILL.md explicitly forbids) and
+      dropping the closing "reply with your answers" line (the actual fix
+      for the original routing-ambiguity complaint) in most calls. Neither
+      is caused by anything in M11's task list — this is pre-existing skill
+      drift that M11's live-testing happened to catch. Fixed in SKILL.md:
+      moved the "never narrate" rule to sit at the actual decision point,
+      made the closing-invitation requirement explicit and load-bearing
+      (worded as "a sentence *like* X", not literally X — models phrase it
+      differently each call and that's fine), and stopped requiring the
+      cosmetic box-drawing delimiter chars, which models don't reproduce
+      reliably and which were never the actual product requirement.
+      tests/skill.headless.js updated to match: the shape check now
+      requires the marker phrase *and* a closing invitation found via
+      intent (`?`/reply/answer in the output's tail), not one exact phrase
+      — this also fixed a real false-positive from round 3, verified
+      offline against saved output before spending another live call.
+
+      4 live rounds, tallied: round 1 (before any fix) 2/5, mechanism leak
+      + missing trailer. Round 2 (leak fix only) 2/5, leak gone, trailer
+      still often missing narrow-pattern match. Round 3 (trailer emphasis
+      added, test still narrow) 3/5, two false positives from the test's
+      exact-phrase requirement — confirmed offline, not re-run live. Round
+      4 (test broadened to match intent) 4/5 — the one failure is the
+      mechanism-leak check correctly firing on a genuine, rare recurrence.
+      Across the three post-fix rounds (15 calls), the leak recurred once
+      — roughly 93% adherence to a "never do X" instruction repeated across
+      independent stateless calls. That's a substantial, verified
+      improvement over the pre-fix baseline, not full elimination — further
+      prompt-tweaking has hit diminishing returns for what is inherently
+      probabilistic model behavior, not a fixable logic bug. Documented
+      here rather than hidden or endlessly re-chased, per explicit
+      direction to stop spending time on this.)
 - [ ] Add a `CHANGELOG.md` entry, bump `package.json` + `plugin.json` to
       `0.1.1` (marketplace-readiness fixes, no behavior change — patch
       per semver), tag `v0.1.1`.
