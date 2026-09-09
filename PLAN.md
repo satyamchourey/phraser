@@ -259,7 +259,10 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       the demo itself showed the model reasonably using different section
       names for a from-scratch build (Deliverable/Functionality/UI/Out of
       scope) than the fixed list assumed, and that adapted output reads
-      better, not worse.)
+      better, not worse.
+      Confirmed rendering on GitHub after push (c26eaec): raw.githubusercontent.com
+      serves the asset 200 image/gif, and the README's content on GitHub
+      references it at the correct relative path. CI green on the push.)
 
 ## M9 — Release
 
