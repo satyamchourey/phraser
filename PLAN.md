@@ -270,6 +270,11 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       VS Code extension, and Desktop Code tab. **Manual, author-run.** Note
       any divergence in an issue rather than silently patching.
       *Verify:* all three surfaces produce comparable output; results recorded.
+      **Explicitly skipped for v0.1 — author's call (2026-09-09).** Left
+      unchecked rather than marked done: this did not happen, and the plan
+      should say so plainly rather than imply it was run. Worth doing
+      before the next release if VS Code/Desktop divergence turns out to
+      matter in practice.
 - [ ] Confirm version consistency across `plugin.json`, `package.json`, and
       `CHANGELOG.md`, then tag `v0.1.0`.
       *Verify:* `git tag` shows the tag; CI is green on the tagged commit.
@@ -393,7 +398,12 @@ complaint).
       (Confirmed: 0.1.0 unchanged in package.json and plugin.json;
       Unreleased sits above the 0.1.0 entry, covering the rename,
       answer-routing, and sharpened-block/approval changes under one
-      Changed heading.)
+      Changed heading.
+      Superseded at M9 tagging time: since v0.1.0 had never actually
+      shipped yet, tagging it with an "Unreleased" section still sitting
+      above it would contradict the tag itself. Folded into the [0.1.0]
+      entry as "Iterated during development" instead, dated to the actual
+      tag date rather than the M8 drafting date.)
 
 ---
 
