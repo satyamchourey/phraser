@@ -275,9 +275,15 @@ Runtime baseline: Node 20+, `node:test` + `node:assert` as the test runner
       should say so plainly rather than imply it was run. Worth doing
       before the next release if VS Code/Desktop divergence turns out to
       matter in practice.
-- [ ] Confirm version consistency across `plugin.json`, `package.json`, and
+- [x] Confirm version consistency across `plugin.json`, `package.json`, and
       `CHANGELOG.md`, then tag `v0.1.0`.
       *Verify:* `git tag` shows the tag; CI is green on the tagged commit.
+      (0.1.0 consistent across all three (CHANGELOG restructured — see the
+      commit above — so it's no longer contradicted by a dangling
+      Unreleased section). Annotated tag `v0.1.0` created on `6fee700` and
+      pushed. `git tag` lists it. The tag push triggered its own CI run
+      (event: push, ref v0.1.0, sha 6fee700) — conclusion: success.
+      https://github.com/satyamchourey/phraser/releases/tag/v0.1.0)
 
 ---
 
