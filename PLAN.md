@@ -339,7 +339,7 @@ complaint).
       since the bare form is now `/gist`, and the README's namespacing
       aside was rewritten — it claimed plugin and command were "both named
       phraser", which the rename made false.)
-- [ ] Add an answer-routing section to SKILL.md: prefer `AskUserQuestion`
+- [x] Add an answer-routing section to SKILL.md: prefer `AskUserQuestion`
       when questions are choice-shaped (≤3 questions, 2–4 options each,
       "Other" carries free text); fall back to a delimited
       `PHRASER — CLARIFYING QUESTIONS` block when any question is genuinely
@@ -354,7 +354,7 @@ complaint).
       your answers" line. It picked the fallback for the right reason too —
       one of its three questions was "paste the error", which has no honest
       multiple-choice form.)
-- [ ] Rework output shape B in SKILL.md: a delimited `SHARPENED PROMPT`
+- [x] Rework output shape B in SKILL.md: a delimited `SHARPENED PROMPT`
       block (goal / constraints / files in scope / done when / assumptions
       stated), then an explicit prose approval ask ("Approved? Reply yes, or
       tell me what to change"), then stop. Approval is deliberately prose,
