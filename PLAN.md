@@ -540,9 +540,16 @@ marketplace-consumer path). It doesn't work today without this file.
       probabilistic model behavior, not a fixable logic bug. Documented
       here rather than hidden or endlessly re-chased, per explicit
       direction to stop spending time on this.)
-- [ ] Add a `CHANGELOG.md` entry, bump `package.json` + `plugin.json` to
-      `0.1.1` (marketplace-readiness fixes, no behavior change — patch
-      per semver), tag `v0.1.1`.
+- [x] Add a `CHANGELOG.md` entry, bump `package.json` + `plugin.json` to
+      `0.1.1` (marketplace-readiness fixes, plus the fallback-question fix
+      surfaced while verifying them — not a pure no-behavior-change patch
+      as originally assumed here, corrected once that was found), tag
+      `v0.1.1`.
+      (0.1.1 consistent across package.json, package-lock.json, plugin.json,
+      and marketplace.json. Annotated tag `v0.1.1` created on `31176aa` and
+      pushed. `git tag` lists both `v0.1.0` and `v0.1.1`. The tag push
+      triggered its own CI run — conclusion: success.
+      https://github.com/satyamchourey/phraser/releases/tag/v0.1.1)
       *Verify:* version consistent across all three files; `git tag` shows
       `v0.1.1`; CI green on the tagged commit.
 
