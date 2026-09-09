@@ -484,16 +484,25 @@ marketplace-consumer path). It doesn't work today without this file.
       `owner/repo` GitHub shorthand, not the local `./` form task 1 tested
       — so this specific invocation can only be verified against the live
       pushed repo. Deferred to this milestone's final full re-verification
-      pass, after push.)
-- [ ] Full re-verification pass: `npm test`, `npm run test:skill` (live),
+      pass, after push.
+      Confirmed after push: the literal README commands — `claude plugin
+      marketplace add satyamchourey/phraser`, `claude plugin install
+      phraser@phraser -y` — installed user-scoped, then `/phraser:gist`
+      worked correctly from an unrelated cwd (`/tmp`, no `--plugin-dir`).
+      The skill itself also behaved correctly there — no `package.json` in
+      `/tmp`, so it asked rather than guessing. Cleaned up afterward.)
+- [x] Full re-verification pass: `npm test`, `npm run test:skill` (live),
       `claude plugin validate . --strict` (both manifests), CI green on the
       push.
       *Verify:* all green; no regression from the M11 changes.
       (`npm test`: 60/60. `claude plugin validate . --strict`: passes.
+      Final live `npm run test:skill` round: 4/5 (the sole failure is the
+      leak-check correctly catching a rare, documented residual — see
+      below). CI on the final push (1e306d7): conclusion success.
       `npm run test:skill` found a real, unrelated-to-M11 regression —
       logged and fixed as its own paragraph below; not blocking this task,
       but the reason this took 4 live rounds instead of 1. CI-on-push
-      deferred to after the final push, alongside the README marketplace
+      confirmed after the final push, alongside the README marketplace
       command verification task 5 also deferred.
 
       **Regression found and fixed, and its known residual limit:** the
